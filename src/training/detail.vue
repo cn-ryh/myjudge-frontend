@@ -10,6 +10,7 @@ const title = ref(``);
 const description = ref(``);
 const problems = ref([]);
 const author = ref(``);
+import { Tabs, TabPane, Table, TableColumn, Tag, Link } from '@arco-design/web-vue'
 axios.get(`${ip}/getTraining/${id.value}`).then((res) => {
     title.value = res.data.title
     description.value = res.data.description
@@ -83,32 +84,32 @@ function translateColor(difficult) {
                 </TabPane>
                 <TabPane key="2" title="题目列表">
                     <div>
-                        <a-table :data="problems" size="medium">
+                        <Table :data="problems" size="medium">
                             <template #columns style="height: 10px !important">
                                 <!-- <a :href="`./problem.html#/${prob.pid}`"> -->
-                                <a-table-column title="题号" data-index="pid" :sortable="true"></a-table-column>
-                                <a-table-column title="题目名称" data-index="title">
+                                <TableColumn title="题号" data-index="pid" :sortable="true"></TableColumn>
+                                <TableColumn title="题目名称" data-index="title">
                                     <template #cell="{ record }">
                                         <Link :href="`./problem.html#/${record.pid}`">
-                                            <span style="font-weight: 800;">
-                                                {{ record.title }}
-                                            </span>
+                                        <span style="font-weight: 800;">
+                                            {{ record.title }}
+                                        </span>
                                         </Link>
                                         <!-- <a >
 
                                         </a> -->
                                     </template>
-                                </a-table-column>
-                                <a-table-column title="题目难度" data-index="difficult">
+                                </TableColumn>
+                                <TableColumn title="题目难度" data-index="difficult">
                                     <template #cell="{ record }">
-                                        <a-tag :color="translateColor(record.difficult)">
+                                        <Tag :color="translateColor(record.difficult)">
                                             {{ translateDiff(record.difficult) }}
-                                        </a-tag>
+                                        </Tag>
                                     </template>
-                                </a-table-column>
+                                </TableColumn>
                                 <!-- </a> -->
                             </template>
-                        </a-table>
+                        </Table>
                     </div>
                 </TabPane>
             </Tabs>

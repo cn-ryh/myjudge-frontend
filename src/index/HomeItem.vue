@@ -1,6 +1,5 @@
 <script setup>
 import navView from "../nav.vue"
-import TDesign from 'tdesign-vue-next';
 import { Calendar } from 'tdesign-vue-next'
 window.onhashchange = () => {
     window.location.reload();
