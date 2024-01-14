@@ -2,7 +2,7 @@
 import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification, Button } from '@arco-design/web-vue';
+import { Notification, Button, TabPane, Tabs, Table, TableColumn, Tag, Link } from '@arco-design/web-vue';
 import { AutoComplete, DateRangePicker } from 'tdesign-vue-next'
 
 let title = ref(``)
@@ -162,30 +162,30 @@ const handleChange = (_data) => {
                         placeholder="请输入题目编号或标题" style="width: 280px;display: inline-block;" />
                     <Button @click="addToTable()">确认</Button>
 
-                    <a-table style="margin-top: 20px;" :columns="columns" :data="problems"
+                    <Table style="margin-top: 20px;" :columns="columns" :data="problems"
                         :draggable="{ type: 'handle', width: 40 }" @change="handleChange">
                         <template #columns style="height: 10px !important">
-                            <a-table-column title="题号" data-index="pid">
-                            </a-table-column>
-                            <a-table-column title="题目名称" data-index="title">
+                            <TableColumn title="题号" data-index="pid">
+                            </TableColumn>
+                            <TableColumn title="题目名称" data-index="title">
                                 <template #cell="{ record }">
                                     <Link :href="`./problem.html#/${record.pid}`">
-                                        <span style="font-weight: 800;">
-                                            {{ record.title }}
-                                        </span>
+                                    <span style="font-weight: 800;">
+                                        {{ record.title }}
+                                    </span>
                                     </Link>
                                 </template>
-                            </a-table-column>
-                            <a-table-column title="题目难度" data-index="difficult">
+                            </TableColumn>
+                            <TableColumn title="题目难度" data-index="difficult">
                                 <template #cell="{ record }">
-                                    <a-tag :color="translateColor(record.difficult)">
+                                    <Tag :color="translateColor(record.difficult)">
                                         {{ translateDiff(record.difficult) }}
-                                    </a-tag>
+                                    </Tag>
                                 </template>
-                            </a-table-column>
+                            </TableColumn>
                             <!-- </a> -->
                         </template>
-                    </a-table>
+                    </Table>
                 </div>
             </TabPane>
         </Tabs>

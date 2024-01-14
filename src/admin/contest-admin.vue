@@ -2,7 +2,7 @@
 import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification } from '@arco-design/web-vue';
+import { Notification,Card,Tabs,TabPane,Link,Button } from '@arco-design/web-vue';
 import { AutoComplete, DateRangePicker } from 'tdesign-vue-next'
 
 let title = ref(``)
