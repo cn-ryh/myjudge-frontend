@@ -1,6 +1,7 @@
 <script setup>
 import navView from "../nav.vue"
 import { Calendar } from 'tdesign-vue-next'
+import { Link, Card } from "@arco-design/web-vue"
 window.onhashchange = () => {
     window.location.reload();
 }
@@ -35,31 +36,31 @@ window.onhashchange = () => {
                 <p>该系统前端基于 Vue 3.0 开发，使用了一些腾讯和字节跳动的前端 UI 库，后端使用 node.js + express 开发。目前支持的功能有：</p>
                 <li>
                     <Link href="./problem.html#/list">
-                        题目评测
+                    题目评测
                     </Link>
                 </li>
                 <br>
                 <li>
                     <Link href="./record.html#/list">
-                        提交记录
+                    提交记录
                     </Link>
                 </li>
                 <br>
                 <li>
                     <Link href="./training.html#/list">
-                        题单
+                    题单
                     </Link>
                 </li>
                 <br>
                 <li>
                     <Link href="./contest.html#/list">
-                        比赛（目前赛制未适配）
+                    比赛（目前赛制未适配）
                     </Link>
                 </li>
                 <br>
                 <li>
                     <Link href="./file.html#/">
-                        文件系统
+                    文件系统
                     </Link>
                 </li>
 

@@ -5,7 +5,6 @@ import axios from 'axios';
 import { ref } from 'vue';
 import navView from '@/nav.vue';
 import { Upload, Button } from '@arco-design/web-vue'
-import '@arco-design/web-vue/dist/arco.css';
 
 window.onhashchange = () => {
     window.location.reload();

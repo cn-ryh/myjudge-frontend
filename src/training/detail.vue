@@ -10,7 +10,7 @@ const title = ref(``);
 const description = ref(``);
 const problems = ref([]);
 const author = ref(``);
-import { Tabs, TabPane, Table, TableColumn, Tag, Link } from '@arco-design/web-vue'
+import { Tabs, TabPane, Table, TableColumn, Tag, Link,Card } from '@arco-design/web-vue'
 axios.get(`${ip}/getTraining/${id.value}`).then((res) => {
     title.value = res.data.title
     description.value = res.data.description

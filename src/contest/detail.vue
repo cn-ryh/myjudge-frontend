@@ -3,6 +3,7 @@
 import { ip } from "@/ip";
 import axios from "axios";
 import { ref } from "vue";
+import { TabPane, Tabs, Card, Table, TableColumn, Link } from "@arco-design/web-vue";
 const id = ref(0);
 const src = window.location.href;
 id.value = src.substring(src.lastIndexOf(`/`) + 1)
@@ -32,22 +33,22 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
                 </TabPane>
                 <TabPane key="2" title="题目列表">
                     <div>
-                        <a-table :data="problems" size="medium">
+                        <Table :data="problems" size="medium">
                             <template #columns style="height: 10px !important">
                                 <!-- <a :href="`./problem.html#/${prob.pid}`"> -->
-                                <a-table-column title="题号" data-index="pid">
-                                </a-table-column>
-                                <a-table-column title="题目名称" data-index="title">
+                                <TableColumn title="题号" data-index="pid">
+                                </TableColumn>
+                                <TableColumn title="题目名称" data-index="title">
                                     <template #cell="{ record }">
                                         <Link :href="`./problem.html#/${record.pid}`">
-                                            <span style="font-weight: 800;">
-                                                {{ record.title }}
-                                            </span>
+                                        <span style="font-weight: 800;">
+                                            {{ record.title }}
+                                        </span>
                                         </Link>
                                     </template>
-                                </a-table-column>
+                                </TableColumn>
                             </template>
-                        </a-table>
+                        </Table>
                     </div>
                 </TabPane>
             </Tabs>

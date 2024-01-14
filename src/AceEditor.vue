@@ -9,7 +9,6 @@
 <script>
 import ace from '/ace-builds';
 import '/ace-builds/webpack-resolver'; // 在 webpack 环境中使用必须要导入
-import '/ace-builds/src-noconflict/theme-monokai'; // 默认设置的主题
 import '/ace-builds/src-noconflict/theme-tomorrow_night_eighties'; // 默认设置的主题
 import '/ace-builds/src-noconflict/mode-c_cpp'; // 默认设置的语言模式
 import '/ace-builds/src-noconflict/snippets/c_cpp';

@@ -4,7 +4,7 @@ import AceEditor from '../AceEditor.vue'
 import axio from "axios";
 import { ip } from '../ip'
 import { keepLogin } from "@/keepLogin";
-import { Notification } from '@arco-design/web-vue';
+import { Notification,Button,Card,Link } from '@arco-design/web-vue';
 
 let problemName = ref(``);
 

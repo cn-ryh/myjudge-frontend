@@ -1,6 +1,7 @@
 <script aysnc setup>
 import { ref } from 'vue';
 import { getProblem } from './getProblems';
+import {Table,TableColumn,Tag} from "@arco-design/web-vue"
 // window.location.
 document.title = `题目列表`
 let problemList = ref([]);
@@ -59,12 +60,12 @@ function translateColor(difficult) {
 </script>
 <template>
     <div id="problemList" class="row-warp">
-        <a-table :data="problemList" size="medium" :bordered="false">
+        <Table :data="problemList" size="medium" :bordered="false">
             <template #columns style="height: 10px !important">
                 <!-- <a :href="`./problem.html#/${prob.pid}`"> -->
-                <a-table-column title="题号" data-index="pid">
-                </a-table-column>
-                <a-table-column title="题目名称" data-index="title">
+                <TableColumn title="题号" data-index="pid">
+                </TableColumn>
+                <TableColumn title="题目名称" data-index="title">
                     <template #cell="{ record }">
                         <a :href="`./problem.html#/${record.pid}`">
                             <span style="font-weight: 800;">
@@ -72,17 +73,17 @@ function translateColor(difficult) {
                             </span>
                         </a>
                     </template>
-                </a-table-column>
-                <a-table-column title="题目难度" data-index="difficult">
+                </TableColumn>
+                <TableColumn title="题目难度" data-index="difficult">
                     <template #cell="{ record }">
-                        <a-tag :color="translateColor(record.difficult)">
+                        <Tag :color="translateColor(record.difficult)">
                             {{ translateDiff(record.difficult) }}
-                        </a-tag>
+                        </Tag>
                     </template>
-                </a-table-column>
+                </TableColumn>
                 <!-- </a> -->
             </template>
-        </a-table>
+        </Table>
     </div>
 </template>
 
