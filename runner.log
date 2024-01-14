@@ -81,3 +81,4 @@ Hit CTRL-C to stop the server
 [2024-01-14T12:06:45.311Z]  "GET /js/chunk-vendors.b345a941.js.map" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
 [2024-01-14T12:06:45.323Z]  "GET /js/chunk-common.5bf903a5.js.map" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
 [2024-01-14T12:06:45.329Z]  "GET /js/admin.4a0b8b9a.js.map" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+[2024-01-14T13:35:20.314Z]  "GET /" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
