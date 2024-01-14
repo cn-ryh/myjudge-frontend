@@ -1,0 +1,56 @@
+
+<script setup>
+import { ip } from "@/ip";
+import axios from "axios";
+import { ref } from "vue";
+const id = ref(0);
+const src = window.location.href;
+id.value = src.substring(src.lastIndexOf(`/`) + 1)
+const title = ref(``);
+const description = ref(``);
+const problems = ref([]);
+const author = ref(``);
+axios.get(`${ip}/getContest/${id.value}`).then((res) => {
+    title.value = res.data.title
+    description.value = res.data.description
+    problems.value = res.data.problems
+    author.value = res.data.author
+    document.getElementById(`description`).innerHTML = description.value;
+})
+
+</script>
+<template>
+    <div id="main">
+        <h1 style="width: 90%;text-align: center;">{{ title }}</h1>
+        <Card>
+            <Tabs default-active-key="1">
+                <TabPane key="1" title="比赛介绍">
+                    <div>
+                        <span id="description">
+                        </span>
+                    </div>
+                </TabPane>
+                <TabPane key="2" title="题目列表">
+                    <div>
+                        <a-table :data="problems" size="medium">
+                            <template #columns style="height: 10px !important">
+                                <!-- <a :href="`./problem.html#/${prob.pid}`"> -->
+                                <a-table-column title="题号" data-index="pid">
+                                </a-table-column>
+                                <a-table-column title="题目名称" data-index="title">
+                                    <template #cell="{ record }">
+                                        <Link :href="`./problem.html#/${record.pid}`">
+                                            <span style="font-weight: 800;">
+                                                {{ record.title }}
+                                            </span>
+                                        </Link>
+                                    </template>
+                                </a-table-column>
+                            </template>
+                        </a-table>
+                    </div>
+                </TabPane>
+            </Tabs>
+        </Card>
+    </div>
+</template>

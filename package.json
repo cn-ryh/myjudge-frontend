@@ -1,0 +1,39 @@
+{
+  "name": "myjudge-frontend",
+  "version": "0.1.0",
+  "main": "main.js",
+  "homepage": "index.html",
+  "description": "11 Online Judge",
+  "author": {
+    "name": "cn_ryh",
+    "email": "15543677192@163.com",
+    "url": "https://www.luogu.com.cn/user/458193"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@arco-design/web-vue": "^2.53.2",
+    "axios": "^1.6.2",
+    "codemirror-editor-vue3": "^2.4.1",
+    "commander": "^11.1.0",
+    "compression-webpack-plugin": "^10.0.0",
+    "cross-spawn": "^7.0.3",
+    "file-loader": "^6.2.0",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.10",
+    "path-key": "^4.0.0",
+    "shebang-command": "^2.0.0",
+    "tdesign-vue-next": "^1.7.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@vue/cli-service": "~5.0.0",
+    "electron-builder": "^24.9.1",
+    "webpack": "^5.89.0"
+  }
+}
