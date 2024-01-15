@@ -5,5 +5,4 @@ import { router } from './loader.js'
 let app = createApp(App)
 
 app.use(router);
-import '@arco-design/web-vue/dist/arco.css';
 app.mount('#training')

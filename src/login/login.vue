@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import axio from 'axios'
 import { ip } from '../ip'
 import { openDB, updateDB } from '@/indexdb.mjs';
-import { Notification, Button } from '@arco-design/web-vue';
+import { Notification } from '@arco-design/web-vue';
 import navView from '@/nav.vue';
 window.onhashchange = () => {
     window.location.reload();

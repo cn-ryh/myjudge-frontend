@@ -232,7 +232,7 @@ code {
     background-color: rgb(245 226 190);
 }
 
-pre code {
+pre {
     background-color: black;
     font-size: medium;
     color: white;

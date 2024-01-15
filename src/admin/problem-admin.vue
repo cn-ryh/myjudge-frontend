@@ -3,7 +3,6 @@ import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
 import { Notification, Button, Upload, Card, TabPane, Tabs, Select, Option } from '@arco-design/web-vue';
-
 let title = ref(``)
 let description = ref(``)
 let diff = ref(0)
