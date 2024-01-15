@@ -225,16 +225,20 @@ table tfoot tr td {
     background-color: aliceblue;
 }
 
-code {
-    font-family: Courier !important;
-    font-size: larger;
-    color: #f97e93;
-    background-color: rgb(245 226 190);
+em
+{
+    font-weight: 800;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 pre {
     background-color: black;
     font-size: medium;
+    color: white;
+}
+pre code {
+    background-color: black !important;
+    font-size: large;
     color: white;
 }
 
