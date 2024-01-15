@@ -2,9 +2,25 @@
 import navView from "../nav.vue"
 import { Calendar } from 'tdesign-vue-next'
 import { Link, Card } from "@arco-design/web-vue"
+import { keepLogin } from "@/keepLogin";
+import { ref } from 'vue'
+import axio from "axios";
+import { ip } from "@/ip";
 window.onhashchange = () => {
     window.location.reload();
 }
+let isLogin = ref(false)
+let username = ref("")
+let uid = ref(0);
+keepLogin().then((res) => {
+    if (res.logined) {
+        isLogin.value = true;
+        uid.value = res.uid;
+        axio.get(`${ip}/getUsername/${res.uid}`).then((data) => {
+            username.value = data.data.username;
+        })
+    }
+})
 </script>
 <template>
     <navView></navView>
@@ -18,8 +34,13 @@ window.onhashchange = () => {
                     <a href="./files.html"> 文件系统 </a>
                 </div>
                 <div class="menu-obj" style="position: absolute;right: 2%;top: 0;padding-top: .5rem;">
-                    <Link style="font-size: large;" href="./register.html"> 注册 </Link>
-                    <Link style="font-size: large;" href="./login.html"> 登录 </Link>
+                    <div v-show="!isLogin">
+                        <Link style="font-size: large;" href="./register.html"> 注册 </Link>
+                        <Link style="font-size: large;" href="./login.html"> 登录 </Link>
+                    </div>
+                    <div v-show="isLogin" style="color:red;">
+                        <Link :href="`./user.html#/${uid}`" style="color: red !important;font-weight: 700 !important;font-size: larger;">{{ username }}</Link>
+                    </div>
                 </div>
             </div>
         </div>

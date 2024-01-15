@@ -2,7 +2,7 @@
 import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification, Button, TabPane, TableColumn, Tabs, Table } from '@arco-design/web-vue';
+import { Card,Notification, Button, TabPane, TableColumn, Tabs, Table, Link,Tag } from '@arco-design/web-vue';
 import { AutoComplete } from 'tdesign-vue-next'
 
 let title = ref(``)
@@ -87,6 +87,7 @@ function addToTable() {
             Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` })
             return;
         }
+        console.log(x);
         upproblems.value.push({
             id: problems.value.length + 1,
             problem: x.pid

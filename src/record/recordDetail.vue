@@ -6,6 +6,8 @@ import { ref } from "vue";
 let lastres = ref([])
 let user = ref(``)
 let time = ref(``)
+let memory = ref(``)
+
 let submitTime = ref(``)
 let state = ref(``)
 let title = ref(``)
@@ -38,8 +40,8 @@ function tranformState(state) {
     if (state == `Time Limit Error`) {
         return `TLE`;
     }
-    if (state == `Time Limit Error`) {
-        return `TLE`;
+    if (state == `RunTime Error`) {
+        return `RE`;
     }
     if (state == `Time Limit Error`) {
         return `TLE`;
@@ -54,6 +56,7 @@ function getrecord() {
         const recordid = args[args.length - 1]
         axios.get(`${ip}/getRecord/${recordid}`).then((res) => {
             const record = res.data;
+            console.log(record);
             if (record != null && record != `` && record != undefined) {
                 showResult(record);
                 user.value = record.user
@@ -62,6 +65,7 @@ function getrecord() {
                 user.value = record.user
                 state.value = record.state
                 time.value = (record.sumtime > 60000 ? `${(record.sumtime / 600000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)))
+                memory.value = record.memory + `MB`
                 codes.value = record.code;
                 point.value = record.point
                 document.getElementById(`code-View`).innerHTML = hljs.highlight(codes.value, { language: `cpp` }).value
@@ -162,7 +166,10 @@ tryGetting();
                     <span>用时：</span>
                     <span>{{ time }} </span>
                 </div>
-
+                <div>
+                    <span>空间占用：</span>
+                    <span>{{ memory }} </span>
+                </div>
                 <div>
                     <span>提交时间：</span>
                     <span>{{ submitTime }} </span>

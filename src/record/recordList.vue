@@ -2,7 +2,7 @@
 import { ip } from "@/ip";
 import axios from "axios";
 import { ref } from "vue";
-import { Button,Card,List } from '@arco-design/web-vue';
+import { Button, Card, List } from '@arco-design/web-vue';
 let tot = ref(0);
 let records = ref([])
 /**
@@ -16,6 +16,7 @@ if (nowPage.split(`?`).length > 1) {
     axios.get(`${ip}/searchRecord?${nowPage.split(`?`)[1]}`).then(async (res) => {
         tot.value = res.data.length
         records.value = res.data
+        records.value.reverse();
     }).catch((err) => {
         console.error(err);
     })

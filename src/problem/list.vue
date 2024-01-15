@@ -1,7 +1,7 @@
 <script aysnc setup>
 import { ref } from 'vue';
 import { getProblem } from './getProblems';
-import {Table,TableColumn,Tag} from "@arco-design/web-vue"
+import { Table, TableColumn, Tag } from "@arco-design/web-vue"
 // window.location.
 document.title = `题目列表`
 let problemList = ref([]);
@@ -60,7 +60,7 @@ function translateColor(difficult) {
 </script>
 <template>
     <div id="problemList" class="row-warp">
-        <Table :data="problemList" size="medium" :bordered="false">
+        <Table :pagination="{ pageSize: 15 }" :data="problemList" size="medium" :bordered="false" style="width: 90vw;">
             <template #columns style="height: 10px !important">
                 <!-- <a :href="`./problem.html#/${prob.pid}`"> -->
                 <TableColumn title="题号" data-index="pid">

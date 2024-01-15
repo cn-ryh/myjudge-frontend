@@ -10,6 +10,8 @@ import '@arco-design/web-vue/es/tabs/style/css.js'
 import '@arco-design/web-vue/es/table/style/css.js'
 import '@arco-design/web-vue/es/select/style/css.js'
 import '@arco-design/web-vue/es/tag/style/css.js'
-import 'tdesign-vue-next/es/auto-complete/style/css.mjs';
+import '@arco-design/web-vue/es/link/style/css.js'
+
+import 'tdesign-vue-next/es/style/css';
 app.use(router)
 app.mount(`#admin`)
