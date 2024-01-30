@@ -1,4 +1,3 @@
-
 <script setup >
 import { ip } from "@/ip";
 import { Card,Tag,Link } from "@arco-design/web-vue";
@@ -7,12 +6,17 @@ import { ref } from "vue";
 let uid = window.location.href.substring(window.location.href.lastIndexOf(`/`) + 1)
 let acceptedProblems = ref([])
 let triedProblems = ref([])
+let payed = ref(0);
+let username = ref('');
+let level = ref(0);
 axios.get(`${ip}/getUserData/${uid}`).then((res)=>
 {
     acceptedProblems.value = res.data.acceptedProblems;  
     triedProblems.value = res.data.triedProblems;
+    payed.value = res.data.payed;
+    username.value = res.data.username;
+    level.value = res.data.level;
 })
-
 function translateDiff(difficult) {
     switch (difficult) {
         case 1:
@@ -87,7 +91,19 @@ function translateColor(difficult) {
                 </div>
             </Card>
         </div>
-        <!-- <div style="position: fixed;width: 25vw;height: 60vh;right: 3vw ;top:8vh; background-color: yellowgreen;float: right;">
-        </div> -->
+        <div style="position: fixed;width: 25vw;height: 70vh;right: 3vw ;top:8vh;float: right;">
+
+            <Card style="width: 100%;height: 90%;">
+                <div>
+                欢迎 {{ username }}。
+                </div>
+                <br/>
+                <img style="width: 100%;" src="/pay.png"/>
+                <br/>
+                <div>
+                    您已为 Online Judge 贡献 {{ payed }} 元，达成 {{ level }} 等级。
+                </div>
+            </Card>
+        </div>
     </div>
 </template>
