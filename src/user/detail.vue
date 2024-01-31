@@ -118,7 +118,7 @@ function getPercent() {
                         <h3>升级进度</h3>
                     </div>
                 </center>
-                <Progress stroke-width="25" :animation="true" width="22vw" :percent="getPercent().toFixed(2)" :color="{
+                <Progress stroke-width="25" :animation="true" width="22vw" :percent="getPercent().toFixed(4)" :color="{
                     '0%': 'rgb(var(--primary-6))',
                     '100%': 'rgb(var(--success-6))',
                 }" size="large">
