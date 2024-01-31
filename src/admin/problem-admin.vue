@@ -2,7 +2,7 @@
 import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification, Button, Upload, Card, TabPane, Tabs, Select, Option } from '@arco-design/web-vue';
+import { Notification, Button, Upload, Card, TabPane, Tabs, Select, Option,Steps,Step } from '@arco-design/web-vue';
 let title = ref(``)
 let description = ref(``)
 let diff = ref(0)
@@ -29,6 +29,7 @@ function changeProblem() {
         Notification.success(`更新成功`)
     })
 }
+let uploadPro = ref(1);
 </script>
 <template>
     <Card style="width: 90%;margin-left: 5%;margin-top: 1%;">
@@ -75,12 +76,43 @@ function changeProblem() {
                 </div>
             </TabPane>
             <TabPane key="2" title="数据上传">
-                <span>
-                    <p>数据上传</p>
-
-                    <Upload draggable :action="`${ip}/uploadData`" :name="pid"
-                        @success="(res) => { console.log(res.response.successUpload) }" />
-                </span>
+                <Tabs>
+                    <TabPane key="1" title="上传数据生成器">
+                        <Steps :current="uploadPro">
+                            <Step>
+                                上传 gen.cpp
+                            </Step>
+                            <Step>
+                                上传 std.cpp
+                            </Step>
+                            <Step>
+                                上传 gen.sh
+                            </Step>                            
+                        </Steps>
+                        <br />
+                        <div style="height: 65vh;background-color: red;">
+                            <div style="width: 100%;height: 100%;" v-show="uploadPro == 1">
+                                <div style="width: 100%;height: 10%;margin-top: 2vh;">
+                                    <Upload style="width: 10%;margin-left: 45%;height: 5%;">
+                                    </Upload>
+                                </div>
+                                <div style="width: 100%;height: 70%;margin-top: 1%;">
+                                    <textarea style="width: 80%;margin-left: 10%; height: 100%;resize: none;"></textarea>
+                                </div>
+                            </div>
+                            <div style="width: 100%;height: 100%;" v-show="uploadPro == 2">
+                            </div>
+                            <div style="width: 100%;height: 100%;" v-show="uploadPro == 3">
+                            </div>
+                        </div>
+                    </TabPane>
+                    <TabPane key="2" title="上传压缩包">
+                        <span>
+                            <p>数据上传</p>
+                            <Upload draggable :action="`${ip}/uploadData`" :name="pid" @success="(res) => { console.log(res.response.successUpload) }" />
+                        </span>
+                    </TabPane>
+                </Tabs>
             </TabPane>
         </Tabs>
     </Card>
