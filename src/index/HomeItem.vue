@@ -35,10 +35,10 @@ let ChinaTitle = ['CPU 占用', '内存占用', '系统盘读写', '数据盘读
 let ChinaName = ['CPU 占用 %', '内存占用(MB)', '系统盘写速度(KB/s)', '数据盘写速度(KB/s)','系统盘读速度(KB/s)', '数据盘读速度(KB/s)']
 function watchData() {
     var now = new Date();
-    axio.get(`${ip}/watchServer`).then((res) => {
+    axio.get(`https://server.cnryh.cn/core/watchServer`).then((res) => {
         data.push(res.data.cpuUse);
         for (var id = 0; id < 4; id++) {
-            if (data[id].length > 10) {
+            if (data[id].length > 50) {
                 data[id].shift();
                 date[id].shift();
                 if(id >= 2)
@@ -149,7 +149,7 @@ setTimeout(() => {
 let bill = ref(17.20),showMessage = ref(true)
 function getBill()
 {
-    axio.get(`${ip}/getBill`).then((res)=>
+    axio.get(`https://server.cnryh.cn/core/getBill`).then((res)=>
     {
         bill.value =  +res.data.bill
         showMessage.value = bill.value <= 5?true:false
