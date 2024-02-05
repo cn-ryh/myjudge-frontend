@@ -18,7 +18,6 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
     author.value = res.data.author
     document.getElementById(`description`).innerHTML = description.value;
 })
-
 </script>
 <template>
     <div id="main">
@@ -40,7 +39,7 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
                                 </TableColumn>
                                 <TableColumn title="题目名称" data-index="title">
                                     <template #cell="{ record }">
-                                        <Link :href="`./problem.html#/${record.pid}`">
+                                        <Link :href="`./problem.html#/${record.pid}?contestId=${id}`">
                                         <span style="font-weight: 800;">
                                             {{ record.title }}
                                         </span>
@@ -50,6 +49,10 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
                             </template>
                         </Table>
                     </div>
+                </TabPane>
+                
+                <TabPane key="3" title="排行榜">
+                    
                 </TabPane>
             </Tabs>
         </Card>

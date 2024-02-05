@@ -2,9 +2,6 @@
 import { ref } from 'vue';
 import { keepLogin } from './keepLogin';
 let showapps = ref(false);
-function showAppView() {
-
-}
 let nowMenuView = ref(`problem`)
 setTimeout(() => {
     let menurows = document.getElementsByClassName(`menu-row`)

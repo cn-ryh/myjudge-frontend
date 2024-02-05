@@ -23,8 +23,6 @@ keepLogin().then((res) => {
         })
     }
 })
-
-
 let base = +new Date(1968, 9, 3);
 let oneDay = 24 * 3600 * 1000;
 let date = [[], [], [], []];
@@ -140,12 +138,8 @@ setTimeout(() => {
     cpuChart.push(echarts.init(document.getElementById(`vdbUse`)))
     setInterval(() => {
         watchData();
-    }, 5000)
-    watchData();
-    setTimeout(() => {
-        watchData();
-    }, 500);
-}, 200)
+    }, 3000)
+}, 150)
 let bill = ref(17.20),showMessage = ref(true)
 function getBill()
 {

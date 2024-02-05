@@ -83,23 +83,23 @@ let page = ref(1);
     }">
         <template #item="{ item, index }">
             <div
-                style="padding-bottom: 10px;height: 1.8rem;border-bottom-style: outset;border-bottom-width: 2px;border-bottom-color: rgba(100, 100, 100, .2);padding-top: 1.5rem;">
-                <div style="display: inline-block;margin-left: 3rem;width: 35%;">
+                style="font-size: 15px;padding-bottom: 10px;height: 2.3rem;border-bottom-style: outset;border-bottom-width: 2px;border-bottom-color: rgba(100, 100, 100, .2);padding-top: 1.2rem;">
+                <div style="display: inline-block;margin-left: 3rem;width: 32%;">
                     <span style="margin-right: 1rem;width: 30%;">
                         <a :href="`./user.html/${item.user}`">
                             <span style="font-weight: bold;">
-                                {{ item.user }}
+                                {{ item.username }}
                             </span>
                         </a>
                     </span>
-                    <span class="lfe-caption" style="width: 50%;">
+                    <span class="lfe-caption" style="width: 40%;">
                         {{ item.submitTime }}
                     </span>
                 </div>
-                <div style="width: 10%;display: inline-block;">
+                <div style="width: 12%;display: inline-block;">
                     <a :href="`./record.html#/${item.id}`">
-                        <span
-                            :style="`padding:2px 5px;` + (item.state == `Accept` ? `background: rgb(82, 196, 26); color: rgb(255, 255, 255);` : `background: rgb(231, 76, 60); color: rgb(255, 255, 255);`)">
+                        <span :class="`State-${item.state}`.replace(/\s/g,``)"
+                            style="padding:1px 2px;font-size: large;font-weight: 420;">
                             {{ item.state }}
                         </span>
                     </a>
@@ -124,6 +124,19 @@ let page = ref(1);
 </template>
 
 <style>
+.State-Accept
+{
+    color: rgb(82, 196, 26) !important;
+}
+.State-UnAccept
+{
+    color: rgb(255, 23, 23) !important;
+}
+.State-UnShown
+{
+    color: black !important;
+}
+
 /* 圆角下拉框 */
 select {
     appearance: none;

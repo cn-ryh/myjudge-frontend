@@ -42,8 +42,8 @@ function newContest() {
         title: title.value,
         description: description.value,
         problems: upproblems.value,
-        begintime: TimeRange.value[0],
-        endtime: TimeRange.value[1],
+        begintime: new Date(TimeRange.value[0]).getTime(),
+        endtime: new Date(TimeRange.value[1]).getTime(),
         author: "cn_ryh",
         type: `OI`
     }).then((res) => {

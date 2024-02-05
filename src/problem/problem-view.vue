@@ -4,11 +4,11 @@ import AceEditor from '../AceEditor.vue'
 import axio from "axios";
 import { ip } from '../ip'
 import { keepLogin } from "@/keepLogin";
-import { Notification,Button,Card,Link } from '@arco-design/web-vue';
+import { Notification, Button, Card, Link } from '@arco-design/web-vue';
 
 let problemName = ref(``);
 
-let problemId = ref(window.location.href.split('/')[window.location.href.split('/').length - 1]);
+let problemId = ref(window.location.href.split('/')[window.location.href.split('/').length - 1].split(`?`)[0]);
 document.title = problemId.value;
 let TimeLimit = ref(0);
 let MemoryLimit = ref(0);
@@ -75,20 +75,57 @@ int main()
  * @function submit 提交题目
  */
 function submit() {
+    let flag;
     const Timer = new Date();
+    if (window.location.hash.split("?")[1]) {
+        if (flag = +window.location.hash.split("?")[1].match(/contestId=(\S+)/)[1]) {
+            axio.get(`${ip}/getContest/${flag}`).then((res) => {
+                window.alert(`${Timer.getTime()},'@',${res.data.endtime}`)
+                if (Timer.getTime() > res.data.endtime) {
+                    Notification.error(`比赛已结束`);
+                    return;
+                }
+                let ed = res.data.endtime
+                window.alert(ed)
+                keepLogin().then((res) => {
+                    if (res.logined == false) {
+                        Notification.error({
+                            title: '请登录',
+                            content: '三秒后自动跳转到登录界面',
+                            closable: true,
+                        })
+                        setTimeout(() => {
+                            window.location.href = `./login.html`
+                        }, 3000)
+                    }
+                    else {
+                        console.log(Timer.getMonth());
+                        axio.post(ip + `/problem-submit`, {
+                            user: res.uid,
+                            submittime: `${Timer.getFullYear()}-${Timer.getMonth() + 1}-${Timer.getDate()}  ${Timer.getHours()}:${Timer.getMinutes()}:${Timer.getSeconds()}`,
+                            problem: problemId.value,
+                            codes: codes.value,
+                            contestId: flag
+                        }).then((res) => {
+                            window.location.href = `./record.html#/${res.data}`
+                        })
+                    }
+                })
+            })
+            return;
+        }
+
+    }
     keepLogin().then((res) => {
         if (res.logined == false) {
             Notification.error({
                 title: '请登录',
-                content: '五秒后自动跳转到登录界面',
+                content: '三秒后自动跳转到登录界面',
                 closable: true,
             })
             setTimeout(() => {
                 window.location.href = `./login.html`
-                setTimeout(() => {
-                    window.location.reload();
-                }, 100);
-            }, 5000)
+            }, 3000)
         }
         else {
             console.log(Timer.getMonth());
@@ -97,6 +134,7 @@ function submit() {
                 submittime: `${Timer.getFullYear()}-${Timer.getMonth() + 1}-${Timer.getDate()}  ${Timer.getHours()}:${Timer.getMinutes()}:${Timer.getSeconds()}`,
                 problem: problemId.value,
                 codes: codes.value,
+                contestEnd: 0
             }).then((res) => {
                 window.location.href = `./record.html#/${res.data}`
             })
@@ -139,10 +177,10 @@ function changeVal(code) {
             </div>
             <Card style="position: relative;width: 25%;height: 60rem;margin-top: 5%;float: right;">
                 <Link :href="`./record.html#/list?problem=${problemId}`">
-                    <span>提交记录</span>
+                <span>提交记录</span>
                 </Link>
                 <Link :href="`./admin.html#/problem/${problemId}`" v-show="showAdmin">
-                    题目管理
+                题目管理
                 </Link>
             </Card>
         </div>
@@ -150,6 +188,7 @@ function changeVal(code) {
 </template>
 
 <style>
+
 .ace-container .ace-editor {
     margin: 6% 0% !important;
     width: 95%;
@@ -225,10 +264,9 @@ table tfoot tr td {
     background-color: aliceblue;
 }
 
-em
-{
+em {
     font-weight: 800;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 pre {
@@ -236,6 +274,7 @@ pre {
     font-size: medium;
     color: white;
 }
+
 pre code {
     background-color: black !important;
     font-size: large;
