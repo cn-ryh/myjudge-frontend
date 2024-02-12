@@ -32,14 +32,14 @@ function changeProblem() {
 let uploadPro = ref(1);
 function uploadGen()
 {
-    let gensh = document.getElementById(`genSh`).value
-    let gencpp = document.getElementById(`genCpp`).value
-    let stdcpp = document.getElementById(`stdCpp`).value
-    axios.post(`${ip}/uploadDataGen/${pid}`,{
-        gensh,gencpp,stdcpp
-    }).then(()=>
+    let gensh = document.getElementById(`genSh`).value??``
+    let gencpp = document.getElementById(`genCpp`).value??``
+    let stdcpp = document.getElementById(`stdCpp`).value??``
+    axios.post(`${ip}/uploadDataGen/${pid.value}`,{
+        gensh,gencpp,std: stdcpp
+    }).then((res)=>
     {
-
+        console.log(res.data);
     })
 }
 </script>
