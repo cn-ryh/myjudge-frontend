@@ -2,7 +2,7 @@
 import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification, Button, Upload, Card, TabPane, Tabs, Select, Option } from '@arco-design/web-vue';
+import { Notification, Button, Upload, Card, TabPane, Tabs, Select, Option, Steps, Step } from '@arco-design/web-vue';
 let title = ref(``)
 let description = ref(``)
 let diff = ref(0)
@@ -27,6 +27,19 @@ function changeProblem() {
         difficult: diff.value
     }).then(() => {
         Notification.success(`更新成功`)
+    })
+}
+let uploadPro = ref(1);
+function uploadGen()
+{
+    let gensh = document.getElementById(`genSh`).value??``
+    let gencpp = document.getElementById(`genCpp`).value??``
+    let stdcpp = document.getElementById(`stdCpp`).value??``
+    axios.post(`${ip}/uploadDataGen/${pid.value}`,{
+        gensh,gencpp,std: stdcpp
+    }).then((res)=>
+    {
+        console.log(res.data);
     })
 }
 </script>
@@ -75,12 +88,71 @@ function changeProblem() {
                 </div>
             </TabPane>
             <TabPane key="2" title="数据上传">
-                <span>
-                    <p>数据上传</p>
-
-                    <Upload draggable :action="`${ip}/uploadData`" :name="pid"
-                        @success="(res) => { console.log(res.response.successUpload) }" />
-                </span>
+                <Tabs>
+                    <TabPane key="1" title="上传数据生成器">
+                        <Steps :current="uploadPro">
+                            <Step>
+                                上传 gen.cpp
+                            </Step>
+                            <Step>
+                                上传 std.cpp
+                            </Step>
+                            <Step>
+                                上传 gen.sh
+                            </Step>
+                        </Steps>
+                        <br />
+                        <div style="height: 65vh;">
+                            <div style="width: 100%;height: 100%;" v-show="uploadPro == 1">
+                                <div style="width: 20%;margin-left: 40%;text-align: center;">
+                                    <p>在文本框填写 gen.cpp</p>
+                                </div>
+                                <div style="width: 100%;height: 70%;margin-top: 1%;">
+                                    <textarea id="genCpp" style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
+                                </div>
+                                <Button type="primary" style="width: 6%;margin-left: 47%;" @click="() => {
+                                    ++uploadPro
+                                }">下一步</Button>
+                            </div>
+                            <div style="width: 100%;height: 100%;" v-show="uploadPro == 2">
+                                <div style="width: 20%;margin-left: 40%;text-align: center;">
+                                    <p>在文本框填写 std.cpp</p>
+                                </div>
+                                <div style="width: 100%;height: 70%;margin-top: 1%;">
+                                    <textarea id="stdCpp" style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
+                                </div>
+                                
+                                <Button type="primary" style="width: 6%;margin-left: 44%;" @click="() => {
+                                    --uploadPro
+                                }">上一步</Button>
+                                <Button type="primary" style="width: 6%;" @click="() => {
+                                    ++uploadPro
+                                }">下一步</Button>
+                            </div>
+                            <div style="width: 100%;height: 100%;" v-show="uploadPro == 3">
+                                <div style="width: 20%;margin-left: 40%;text-align: center;">
+                                    <p>在文本框填写 gen.sh</p>
+                                </div>
+                                <div style="width: 100%;height: 70%;margin-top: 1%;">
+                                    <textarea id="genSh" style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
+                                </div>
+                                <Button type="primary" style="width: 6%;margin-left: 44%;" @click="() => {
+                                    --uploadPro
+                                }">上一步</Button>
+                                <Button type="primary" status="success" style="width: 6%;" @click="() => {
+                                    uploadGen();
+                                }">完成</Button>
+                            </div>
+                        </div>
+                    </TabPane>
+                    <TabPane key="2" title="上传压缩包">
+                        <span>
+                            <p>数据上传</p>
+                            <Upload draggable :action="`${ip}/uploadData`" :name="pid"
+                                @success="(res) => { console.log(res.response.successUpload) }" />
+                        </span>
+                    </TabPane>
+                </Tabs>
             </TabPane>
         </Tabs>
     </Card>

@@ -62,7 +62,7 @@ function getrecord() {
                 user.value = record.user
                 problem.value = record.problem
                 submitTime.value = record.submitTime
-                user.value = record.user
+                user.value = record.username
                 state.value = record.state
                 time.value = (record.sumtime > 60000 ? `${(record.sumtime / 600000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)))
                 memory.value = record.memory + `MB`
@@ -137,28 +137,28 @@ tryGetting();
         </div>
     </div>
     <div class="recordInfo" v-show="nowView == `Details`">
-        <div style="margin:10%;">
+        <div style="margin:4%;font-size: large;">
             <div class="info-row">
                 提交者：{{ user }}
             </div>
-            <div style="flex:1 0 auto">
+            <div style="flex:1 0 auto;">
                 <div>
                     <span>
                         所属题目：
                     </span>
-                    <Link :href="`./problem.html#/${problem}`" class="link color-default">
-                    {{ problem + ` ` + title }}
+                    <Link :href="`./problem.html#/${problem}`" class="link color-default" style="font-size: medium;margin-bottom: 0 !important;">
+                    {{ (problem + ` ` + title).length < 20?(problem + ` ` + title):((problem + ` ` + title).substring(0,16)+`...`) }}
                     </Link>
                 </div>
                 <div>
                     <span>评测状态：</span>
-                    <span style="color: rgb(82, 196, 26);">
+                    <span :class="`State-${state}`" style="font-weight: 800;">
                         {{ state }}
                     </span>
                 </div>
                 <div>
                     <span>得分：</span>
-                    <span id="point" style="font-weight: bold; color: rgb(82, 196, 26);">
+                    <span id="point" style="font-weight: bold;" :class="(point <= 30?`pointLow`:(point>=70?`pointHigh`:`pointMid`))">
                         {{ point }}
                     </span>
                 </div>
@@ -180,6 +180,30 @@ tryGetting();
 </template>
 
 <style>
+.State-Accept
+{
+    color: rgb(82, 196, 26) !important;
+}
+.State-UnAccept
+{
+    color: rgb(255, 23, 23) !important;
+}
+.State-UnShown
+{
+    color: black !important;
+}
+.pointLow
+{
+    color: rgb(231, 76, 60);
+}
+.pointMid
+{
+    color: rgb(245, 138, 14);
+}
+.pointHigh
+{
+    color: rgb(82, 196, 26);
+}
 a {
     /* color: #5e72e4 !important; */
     text-decoration: none;
@@ -187,6 +211,7 @@ a {
 
 .recordInfo * {
     margin-bottom: 10px;
+    padding-top: 2%;
 }
 
 body * {
@@ -205,7 +230,7 @@ body * {
     left: 67%;
     top: 10%;
     width: 30%;
-    height: 16rem;
+    height: 22rem;
     background-color: #c5cee5;
 }
 

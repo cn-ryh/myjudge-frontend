@@ -5,6 +5,8 @@ import { Link, Card } from "@arco-design/web-vue"
 import { keepLogin } from "@/keepLogin";
 import { ref } from 'vue'
 import axio from "axios";
+import * as echarts from 'echarts'
+
 import { ip } from "@/ip";
 window.onhashchange = () => {
     window.location.reload();
@@ -21,6 +23,102 @@ keepLogin().then((res) => {
         })
     }
 })
+let date = [[], [], [], []];
+let data = [[0], [0], [0], [0],[0],[0]];
+var cpuChart = []
+let ChartIdName = ['cpuUse', 'MemUse', 'vdaUseRead','vdaUseWrite']
+let ChinaTitle = ['CPU 占用', '内存占用', '磁盘读速度',"磁盘写速度"]
+let ChinaName = ['CPU 占用 %', '内存占用(MB)', '硬盘写速度(KB/s)', '硬盘读速度(KB/s)']
+function watchData() {
+    var now = new Date();
+    axio.get(`https://lenovo.cnryh.cn:10087/core/watchServer`).then((res) => {
+        data.push(res.data.cpuUse);
+        for (var id = 0; id <= 3; id++) {
+            if (data[id].length > 50) {
+                data[id].shift();
+                date[id].shift();
+            }
+            
+            data[id].push(res.data[ChartIdName[id]])
+            date[id].push([now.getHours(), now.getMinutes(), now.getSeconds()].join(':'));
+            let option = {
+                tooltip: {
+                    trigger: 'axis',
+                    position: function (pt) {
+                        return [pt[0], '10%'];
+                    }
+                },
+                title: {
+                    left: 'center',
+                    text: `${ChinaTitle[id]}`
+                },
+                toolbox: {
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: date[id]
+                },
+                yAxis: {
+                    type: 'value',
+                    boundaryGap: [0, '100%']
+                },
+
+                series: [
+                    {
+                        name: `${ChinaName[id]}`,
+                        type: 'line',
+                        symbol: 'none',
+                        sampling: 'lttb',
+                        itemStyle: {
+                            color: 'rgb(255, 70, 131)'
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {
+                                    offset: 0,
+                                    color: `rgb(${(70 + id * 30).toFixed(0)},${(255 - 40 * id).toFixed(0)} , 131)`
+                                },
+                                {
+                                    offset: 1,
+                                    color: `rgb(213, ${(70 + id * 30).toFixed(0)}, 131)`
+                                }
+                            ])
+                        },
+                        data: data[id]
+                    },
+                ]
+            };
+            cpuChart[id].setOption(option)
+        }
+    })
+}
+setTimeout(() => {
+    cpuChart.push(echarts.init(document.getElementById(`cpuUse`)))
+    cpuChart.push(echarts.init(document.getElementById(`memUse`)))
+    cpuChart.push(echarts.init(document.getElementById(`vdaRead`)))
+    cpuChart.push(echarts.init(document.getElementById(`vdaWrite`)))
+    setInterval(() => {
+        watchData();
+    }, 3000)
+}, 150)
+let bill = ref(17.20),showMessage = ref(true)
+function getBill()
+{
+    axio.get(`https://lenovo.cnryh.cn:10087/core/getBill`).then((res)=>
+    {
+        bill.value =  +res.data.bill
+        showMessage.value = bill.value <= 5?true:false
+    })
+}
+getBill();
 </script>
 <template>
     <navView></navView>
@@ -39,59 +137,40 @@ keepLogin().then((res) => {
                         <Link style="font-size: large;" href="./login.html"> 登录 </Link>
                     </div>
                     <div v-show="isLogin" style="color:red;">
-                        <Link :href="`./user.html#/${uid}`" style="color: red !important;font-weight: 700 !important;font-size: larger;">{{ username }}</Link>
+                        <Link :href="`./user.html#/${uid}`"
+                            style="color: red !important;font-weight: 700 !important;font-size: larger;">{{ username }}
+                        </Link>
                     </div>
                 </div>
             </div>
         </div>
 
         <Card hoverable style="width: 20%;height: 18rem; position: absolute;right: 1rem;top: 4rem;">
-            <Calendar theme="card">
-            </Calendar>
+            <center>
+                <h2>腾讯云可用余额</h2>
+                <br/>
+                <div>
+                    <span style="font-size: 3.5rem;font-weight: 900;color: red;">
+                        {{ bill.toFixed(2) }}
+                    </span>
+                    <span style="font-size: 0.8rem;">元</span>
+                </div>
+                <br>
+                <span v-if="showMessage" style="color: red;font-size: large;font-weight: 700;">
+                    余额较低，请及时充值。
+                </span>
+            </center>
         </Card>
-        <Card style="position: absolute;width: 70%;height: 40rem;left: 7em;top:4rem">
-            <!-- <a-empty style="margin-top: 25%;width: 100%;height: 100%;"/> -->
-            <div>
-                <H1>11 Online Judge 1.0.0 发布</H1>
-                <p>大家好，经过数周的不断努力，长春市十一高中信息学竞赛在线评测系统 1.0.0 终于正式发布了。</p>
-                <p>该系统前端基于 Vue 3.0 开发，使用了一些腾讯和字节跳动的前端 UI 库，后端使用 node.js + express 开发。目前支持的功能有：</p>
-                <li>
-                    <Link href="./problem.html#/list">
-                    题目评测
-                    </Link>
-                </li>
-                <br>
-                <li>
-                    <Link href="./record.html#/list">
-                    提交记录
-                    </Link>
-                </li>
-                <br>
-                <li>
-                    <Link href="./training.html#/list">
-                    题单
-                    </Link>
-                </li>
-                <br>
-                <li>
-                    <Link href="./contest.html#/list">
-                    比赛（目前赛制未适配）
-                    </Link>
-                </li>
-                <br>
-                <li>
-                    <Link href="./files.html#/">
-                    文件系统
-                    </Link>
-                </li>
-
-                <p>接下来即将支持的有：</p>
-                <li>RMJ 系统（包括 Atcoder 和 Codeforces）</li>
-                <br>
-                <li>比赛系统（完善赛制、排行榜）</li>
-                <br>
-                <li>社区功能（讨论与私信）</li>
+        <Card style="position: absolute;width: 70%;height: 45rem;left: 7em;top:4rem">
+            <div style="width: 90%;height: 35vh;">
+                <div id="cpuUse" style="width: 45%;height: 100%;float: left;"></div>
+                <div id="memUse" style="width: 45%;height: 100%;float: right;"></div>
             </div>
+            <div style="width: 90%;height: 35vh;">
+                <div id="vdaRead" style="width: 45%;height: 100%;float: left;"></div>
+                <div id="vdaWrite" style="width: 45%;height: 100%;float: right;"></div>
+            </div>
+            
         </Card>
     </div>
 </template>
@@ -102,7 +181,7 @@ a {
 }
 
 .menu {
-    width: 100%;
+    width: 90vw;
     height: 3rem;
     background-color: aquamarine;
 }

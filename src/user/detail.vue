@@ -10,6 +10,9 @@ let payed = ref(0);
 let username = ref('');
 let level = ref(0);
 let exp = ref(0)
+window.onhashchange = () => {
+    window.location.reload();
+}
 axios.get(`${ip}/getUserData/${uid}`).then((res) => {
     acceptedProblems.value = res.data.acceptedProblems;
     triedProblems.value = res.data.triedProblems;

@@ -1,2 +1,2 @@
-const ip = `https://server.cnryh.cn/oj`
+const ip = `https://lenovo.cnryh.cn:10087/oj`
 export { ip }
