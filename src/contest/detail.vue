@@ -11,12 +11,22 @@ const title = ref(``);
 const description = ref(``);
 const problems = ref([]);
 const author = ref(``);
+const dashboard = ref([]);
 axios.get(`${ip}/getContest/${id.value}`).then((res) => {
     title.value = res.data.title
     description.value = res.data.description
     problems.value = res.data.problems
+    console.log(problems.value); 
     author.value = res.data.author
-    document.getElementById(`description`).innerHTML = description.value;
+    setTimeout(()=>
+    {
+        document.getElementById(`description`).innerHTML = description.value;
+    },1000);
+})
+axios.get(`${ip}/getDashBoard/${id.value}`).then((res)=>
+{
+    console.log(res.data);
+    dashboard.value = res.data.detail;
 })
 </script>
 <template>
@@ -33,9 +43,9 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
                 <TabPane key="2" title="题目列表">
                     <div>
                         <Table :data="problems" size="medium">
-                            <template #columns style="height: 10px !important">
+                        <template #columns style="height: 10px !important">
                                 <!-- <a :href="`./problem.html#/${prob.pid}`"> -->
-                                <TableColumn title="题号" data-index="pid">
+                                <TableColumn title="编号" data-index="pid">
                                 </TableColumn>
                                 <TableColumn title="题目名称" data-index="title">
                                     <template #cell="{ record }">
@@ -47,12 +57,26 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
                                     </template>
                                 </TableColumn>
                             </template>
-                        </Table>
+                    </Table>
+                        
                     </div>
                 </TabPane>
-                
                 <TabPane key="3" title="排行榜">
-                    
+                    <Table :data="dashboard" size="medium">
+                            <template #columns style="height: 10px !important">
+                                <!-- <a :href="`./problem.html#/${prob.pid}`"> -->
+                                <TableColumn title="用户名" data-index="username">
+                                </TableColumn>
+                                <TableColumn title="总分" data-index="totPoint">
+                                </TableColumn>
+
+                                <TableColumn v-for="(item,id) of problems" :title="item.pid">
+                                    <template #cell="{ record }">
+                                            {{ record.points[id]?(record.points[id].point):"" }}
+                                    </template>
+                                </TableColumn>
+                            </template>
+                        </Table>
                 </TabPane>
             </Tabs>
         </Card>

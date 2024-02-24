@@ -64,7 +64,7 @@ function getrecord() {
                 submitTime.value = record.submitTime
                 user.value = record.username
                 state.value = record.state
-                time.value = (record.sumtime > 60000 ? `${(record.sumtime / 600000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)))
+                time.value = (record.sumtime > 60000 ? `${(record.sumtime / 60000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)))
                 memory.value = record.memory + `MB`
                 codes.value = record.code;
                 point.value = record.point
