@@ -1,46 +1,42 @@
-<script setup>
+<script setup lang="ts">
 import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
 import { Notification, Button, Upload, Card, TabPane, Tabs, Select, Option, Steps, Step } from '@arco-design/web-vue';
-let title = ref(``)
-let description = ref(``)
-let diff = ref(0)
-let page = window.location.href;
-let pid = ref(``);
+const title = ref(``);
+const description = ref(``);
+const diff = ref(0);
+const page = window.location.href;
+const pid = ref(``);
 if (page.substring(page.lastIndexOf(`/`) + 1) !== `problem`) {
     axios.get(`${ip}/getProblem/${page.substring(page.lastIndexOf(`/`) + 1)}`).then((res) => {
-        let problem = res.data;
+        const problem = res.data;
         description.value = problem.descriptionmd;
         pid.value = problem.pid;
-        title.value = problem.title
-        diff.value = problem.difficult
-    })
+        title.value = problem.title;
+        diff.value = problem.difficult;
+    });
 }
-else {
 
-}
 function changeProblem() {
     axios.post(`${ip}/changeProblem/${page.substring(page.lastIndexOf(`/`) + 1)}`, {
         title: title.value,
         description: description.value,
         difficult: diff.value
     }).then(() => {
-        Notification.success(`更新成功`)
-    })
+        Notification.success(`更新成功`);
+    });
 }
-let uploadPro = ref(1);
-function uploadGen()
-{
-    let gensh = document.getElementById(`genSh`).value??``
-    let gencpp = document.getElementById(`genCpp`).value??``
-    let stdcpp = document.getElementById(`stdCpp`).value??``
-    axios.post(`${ip}/uploadDataGen/${pid.value}`,{
-        gensh,gencpp,std: stdcpp
-    }).then((res)=>
-    {
+const uploadPro = ref(1);
+function uploadGen() {
+    const gensh = (document.getElementById(`genSh`) as HTMLInputElement).value ?? ``;
+    const gencpp = (document.getElementById(`genCpp`) as HTMLInputElement).value ?? ``;
+    const stdcpp = (document.getElementById(`stdCpp`) as HTMLInputElement).value ?? ``;
+    axios.post(`${ip}/uploadDataGen/${pid.value}`, {
+        gensh, gencpp, std: stdcpp
+    }).then((res) => {
         console.log(res.data);
-    })
+    });
 }
 </script>
 <template>
@@ -108,7 +104,8 @@ function uploadGen()
                                     <p>在文本框填写 gen.cpp</p>
                                 </div>
                                 <div style="width: 100%;height: 70%;margin-top: 1%;">
-                                    <textarea id="genCpp" style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
+                                    <textarea id="genCpp"
+                                        style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
                                 </div>
                                 <Button type="primary" style="width: 6%;margin-left: 47%;" @click="() => {
                                     ++uploadPro
@@ -119,9 +116,10 @@ function uploadGen()
                                     <p>在文本框填写 std.cpp</p>
                                 </div>
                                 <div style="width: 100%;height: 70%;margin-top: 1%;">
-                                    <textarea id="stdCpp" style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
+                                    <textarea id="stdCpp"
+                                        style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
                                 </div>
-                                
+
                                 <Button type="primary" style="width: 6%;margin-left: 44%;" @click="() => {
                                     --uploadPro
                                 }">上一步</Button>
@@ -134,7 +132,8 @@ function uploadGen()
                                     <p>在文本框填写 gen.sh</p>
                                 </div>
                                 <div style="width: 100%;height: 70%;margin-top: 1%;">
-                                    <textarea id="genSh" style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
+                                    <textarea id="genSh"
+                                        style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
                                 </div>
                                 <Button type="primary" style="width: 6%;margin-left: 44%;" @click="() => {
                                     --uploadPro

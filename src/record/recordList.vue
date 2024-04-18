@@ -2,35 +2,29 @@
 import { ip } from "@/ip";
 import axios from "axios";
 import { ref } from "vue";
-import { Button, Card, List } from '@arco-design/web-vue';
-let tot = ref(0);
-let records = ref([])
-/**
- * @function tranformState 将服务端返回的完整结果转译成缩写
- * @param {string} res 服务端返回的测试点评测结果
- * @returns {string} 转译的结果
- */
-const problems = ref({})
+import { Card, List } from '@arco-design/web-vue';
+const tot = ref(0);
+const records = ref([]);
 const nowPage = window.location.href;
 if (nowPage.split(`?`).length > 1) {
     axios.get(`${ip}/searchRecord?${nowPage.split(`?`)[1]}`).then(async (res) => {
-        tot.value = res.data.length
-        records.value = res.data
+        tot.value = res.data.length;
+        records.value = res.data;
         records.value.reverse();
     }).catch((err) => {
         console.error(err);
-    })
+    });
 }
 function getrecord() {
-    const recordid = document.getElementById(`recordid`).value
-    const pid = document.getElementById(`pid`).value
-    const uid = document.getElementById(`user`).value
-    const state = document.getElementById(`state`).value
+    const recordid = document.getElementById(`recordid`).value;
+    const pid = document.getElementById(`pid`).value;
+    const uid = document.getElementById(`user`).value;
+    const state = document.getElementById(`state`).value;
     if (recordid !== ``) {
-        window.location.href = `./record.html#/${recordid}`
+        window.location.href = `/record/${recordid}`;
         return;
     }
-    const searchOption = {}
+    const searchOption = {};
     if (pid != `` && pid) {
         searchOption.problem = pid;
     }
@@ -44,14 +38,13 @@ function getrecord() {
         window.alert(`不提供所有提交记录的查询`);
         return;
     }
-    let url = `./record.html#/list?`;
-    for (let now in searchOption) {
-        url += `${now}=${searchOption[now]}&`
+    let url = `/record/list?`;
+    for (const now in searchOption) {
+        url += `${now}=${searchOption[now]}&`;
     }
     window.location.href = url;
     window.location.reload();
 }
-let page = ref(1);
 
 </script>
 
@@ -81,12 +74,12 @@ let page = ref(1);
         total: records.length,
         pageSize: 10
     }">
-        <template #item="{ item, index }">
+        <template #item="{ item }">
             <div
                 style="font-size: 15px;padding-bottom: 10px;height: 2.3rem;border-bottom-style: outset;border-bottom-width: 2px;border-bottom-color: rgba(100, 100, 100, .2);padding-top: 1.2rem;">
                 <div style="display: inline-block;margin-left: 3rem;width: 32%;">
                     <span style="margin-right: 1rem;width: 30%;">
-                        <a :href="`./user.html/${item.user}`">
+                        <a :href="`/user/${item.user}`">
                             <span style="font-weight: bold;">
                                 {{ item.username }}
                             </span>
@@ -97,8 +90,8 @@ let page = ref(1);
                     </span>
                 </div>
                 <div style="width: 12%;display: inline-block;">
-                    <a :href="`./record.html#/${item.id}`">
-                        <span :class="`State-${item.state}`.replace(/\s/g,``)"
+                    <a :href="`/record/${item.id}`">
+                        <span :class="`State-${item.state}`.replace(/\s/g, ``)"
                             style="padding:1px 2px;font-size: large;font-weight: 420;">
                             {{ item.state }}
                         </span>
@@ -106,7 +99,7 @@ let page = ref(1);
                 </div>
                 <div class="problem" style="width: 10%;display: inline-block;">
                     <div>
-                        <a :href="`./problem.html#/${item.problem}`" style="color: rgb(10, 10, 230);">
+                        <a :href="`/problem/${item.problem}`" style="color: rgb(10, 10, 230);">
                             <span class="pid">
                                 <b>{{ item.problem }}</b>
                                 {{ item.title }}
@@ -124,16 +117,15 @@ let page = ref(1);
 </template>
 
 <style>
-.State-Accept
-{
+.State-Accept {
     color: rgb(82, 196, 26) !important;
 }
-.State-UnAccept
-{
+
+.State-UnAccept {
     color: rgb(255, 23, 23) !important;
 }
-.State-UnShown
-{
+
+.State-UnShown {
     color: black !important;
 }
 

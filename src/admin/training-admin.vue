@@ -1,26 +1,26 @@
-<script setup>
+<script setup lang="ts">
 import { ip } from '@/ip';
 import axios from 'axios';
-import { ref } from 'vue';
-import { Card,Notification, Button, TabPane, TableColumn, Tabs, Table, Link,Tag } from '@arco-design/web-vue';
-import { AutoComplete } from 'tdesign-vue-next'
+import { Ref, ref } from 'vue';
+import { Card, Notification, Button, TabPane, TableColumn, Tabs, Table, Link, Tag } from '@arco-design/web-vue';
+import { AutoComplete } from 'tdesign-vue-next';
 
-let title = ref(``)
-let description = ref(``)
-let page = window.location.href;
-let problems = ref([]);
-let upproblems = ref([]);
-let problemList = ref()
-let options = ref([]);
-const nowProblem = ref(``)
+const title = ref(``);
+const description = ref(``);
+const page = window.location.href;
+const problems = ref([]);
+const upproblems = ref([]);
+const problemList = ref();
+const options: Ref<string[]> = ref([]);
+const nowProblem = ref(``);
 axios.get(`${ip}/getProblemList`).then((res) => {
     options.value = [];
-    problemList.value = res.data.problems
-    for (let now of res.data.problems) {
+    problemList.value = res.data.problems;
+    for (const now of res.data.problems) {
         options.value.push(`${now.pid} ${now.title}`);
     }
-})
-function translateDiff(difficult) {
+});
+function translateDiff(difficult: number) {
     switch (difficult) {
         case 1:
             return "普及 T1";
@@ -70,21 +70,21 @@ function translateColor(difficult) {
     }
 }
 const handleChange = (_data) => {
-    problems.value = _data
-}
+    problems.value = _data;
+};
 function addToTable() {
     if (nowProblem.value !== ``) {
 
         const id = nowProblem.value.split(` `)[0];
         if (!id) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` })
+            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
-        let x = problemList.value.filter((item) => {
+        const x = problemList.value.filter((item) => {
             return item.pid == id;
         })[0];
         if (!x) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` })
+            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
         console.log(x);
@@ -93,28 +93,25 @@ function addToTable() {
             problem: x.pid
         });
         problems.value.push(x);
-        nowProblem.value = ``
+        nowProblem.value = ``;
     }
     else {
         return;
     }
 }
-let id = ref(``);
+const id = ref(``);
 if (page.substring(page.lastIndexOf(`/`) + 1) !== `problem`) {
 
     axios.get(`${ip}/getTraining/${page.substring(page.lastIndexOf(`/`) + 1)}`).then((res) => {
-        let training = res.data;
+        const training = res.data;
         description.value = training.descriptionmd;
         id.value = training.id;
-        title.value = training.title
+        title.value = training.title;
         problems.value = training.problems;
         for (let i = 0; i < problems.value.length; i++) {
             upproblems.value.push({ id: i, problem: problems.value[i].pid });
         }
-    })
-}
-else {
-
+    });
 }
 function changeTraining() {
     axios.post(`${ip}/changeTraining/${page.substring(page.lastIndexOf(`/`) + 1)}`, {
@@ -122,8 +119,8 @@ function changeTraining() {
         description: description.value,
         problems: upproblems.value
     }).then(() => {
-        Notification.success(`更新成功`)
-    })
+        Notification.success(`更新成功`);
+    });
 }
 
 </script>
@@ -157,12 +154,12 @@ function changeTraining() {
 
                     <Table style="margin-top: 20px;" :columns="columns" :data="problems"
                         :draggable="{ type: 'handle', width: 40 }" @change="handleChange">
-                        <template #columns style="height: 10px !important">
+                        <template #columns>
                             <TableColumn title="题号" data-index="pid">
                             </TableColumn>
                             <TableColumn title="题目名称" data-index="title">
                                 <template #cell="{ record }">
-                                    <Link :href="`./problem.html#/${record.pid}`">
+                                    <Link :href="`/problem/${record.pid}`">
                                     <span style="font-weight: 800;">
                                         {{ record.title }}
                                     </span>

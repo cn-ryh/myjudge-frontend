@@ -3,27 +3,27 @@ import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
 import { Notification, Button, Table, TableColumn, Tag } from '@arco-design/web-vue';
-import { AutoComplete } from 'tdesign-vue-next'
+import { AutoComplete } from 'tdesign-vue-next';
 
-let title = ref(``)
-let description = ref(``)
-window.location.title = `新建题单`
-let problems = ref([])
-let upproblems = ref([])
+const title = ref(``);
+const description = ref(``);
+window.location.title = `新建题单`;
+const problems = ref([]);
+const upproblems = ref([]);
 function filterWords(keyword, option) {
     const regExp = new RegExp(keyword);
     return regExp.test(option.text);
 }
-const options = ref([])
-const nowProblem = ref(``)
-const problemList = ref([])
+const options = ref([]);
+const nowProblem = ref(``);
+const problemList = ref([]);
 axios.get(`${ip}/getProblemList`).then((res) => {
     options.value = [];
-    problemList.value = res.data.problems
-    for (let now of res.data.problems) {
+    problemList.value = res.data.problems;
+    for (const now of res.data.problems) {
         options.value.push(`${now.pid} ${now.title}`);
     }
-})
+});
 function newTraining() {
     axios.post(`${ip}/newTraining`, {
         title: title.value,
@@ -35,24 +35,24 @@ function newTraining() {
             Notification.success({
                 title: "成功",
                 content: `题单创建成功`
-            })
+            });
         }
 
-    })
+    });
 }
 function addToTable() {
     if (nowProblem.value !== ``) {
 
         const id = nowProblem.value.split(` `)[0];
         if (!id) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` })
+            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
-        let x = problemList.value.filter((item) => {
+        const x = problemList.value.filter((item) => {
             return item.pid == id;
         })[0];
         if (!x) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` })
+            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
         upproblems.value.push({
@@ -60,7 +60,7 @@ function addToTable() {
             problem: x.pid
         });
         problems.value.push(x);
-        nowProblem.value = ``
+        nowProblem.value = ``;
     }
     else {
         return;
@@ -116,8 +116,8 @@ function translateColor(difficult) {
     }
 }
 const handleChange = (_data) => {
-    problems.value = _data
-}
+    problems.value = _data;
+};
 </script>
 <template>
     <Card>
@@ -138,14 +138,14 @@ const handleChange = (_data) => {
                 placeholder="请输入题目编号或标题" style="width: 280px;display: inline-block;" />
             <Button @click="addToTable()">确认</Button>
 
-            <Table style="margin-top: 20px;" :columns="columns" :data="problems" :draggable="{ type: 'handle', width: 40 }"
-                @change="handleChange">
-                <template #columns style="height: 10px !important">
+            <Table style="margin-top: 20px;" :columns="columns" :data="problems"
+                :draggable="{ type: 'handle', width: 40 }" @change="handleChange">
+                <template #columns>
                     <TableColumn title="题号" data-index="pid">
                     </TableColumn>
                     <TableColumn title="题目名称" data-index="title">
                         <template #cell="{ record }">
-                            <Link :href="`./problem.html#/${record.pid}`">
+                            <Link :href="`/problem/${record.pid}`">
                             <span style="font-weight: 800;">
                                 {{ record.title }}
                             </span>

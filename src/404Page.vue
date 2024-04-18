@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-let link = ref('');
+const link = ref('');
 link.value = window.location.href;
 </script>
 <template>

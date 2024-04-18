@@ -1,36 +1,35 @@
 <script setup>
 import { ref } from "vue";
-import AceEditor from '../AceEditor.vue'
+import AceEditor from '../AceEditor.vue';
 import axio from "axios";
-import { ip } from '../ip'
-import { keepLogin } from "@/keepLogin";
+import { ip } from '../ip';
+import { keepLogin } from "@/modules/user/getUserData";
 import { Notification, Button, Card, Link } from '@arco-design/web-vue';
 
-let problemName = ref(``);
+const problemName = ref(``);
 
-let problemId = ref(window.location.href.split('/')[window.location.href.split('/').length - 1].split(`?`)[0]);
+const problemId = ref(window.location.href.split('/')[window.location.href.split('/').length - 1].split(`?`)[0]);
 document.title = problemId.value;
-let TimeLimit = ref(0);
-let MemoryLimit = ref(0);
-let problemDescription = ref(``);
+const TimeLimit = ref(0);
+const MemoryLimit = ref(0);
+const problemDescription = ref(``);
 axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
     if (res.data == ``) {
-        alert(`不存在的题目`)
-        location.replace(`./problem.html#/list`)
+        alert(`不存在的题目`);
+        location.replace(`./problem/list`);
     }
-    console.log(res.data)
-    problemName.value = res.data.title
-    problemDescription.value = res.data.description
-    TimeLimit.value = res.data.TimeLimit
-    MemoryLimit.value = res.data.MemoryLimit
-})
-let showsubmit = ref(false);
+    problemName.value = res.data.title;
+    problemDescription.value = res.data.description;
+    TimeLimit.value = res.data.TimeLimit;
+    MemoryLimit.value = res.data.MemoryLimit;
+});
+const showsubmit = ref(false);
 const showAdmin = ref(false);
 keepLogin().then((res) => {
     if (res.admin) {
         showAdmin.value = true;
     }
-})
+});
 /**
  * @function changeView 改变视图：显示题目界面或显示提交界面
  */
@@ -38,29 +37,29 @@ function changView() {
     if (!showsubmit.value) {
         keepLogin().then((res) => {
             const closeButton = document.createElement(`Button`);
-            closeButton.innerHTML = `关闭`
+            closeButton.innerHTML = `关闭`;
             if (res.logined == false) {
                 Notification.error({
                     title: '请登录',
                     content: '三秒后自动跳转到登录界面',
                     closable: true,
-                })
+                });
                 setTimeout(() => {
-                    window.location.href = `./login.html`
+                    window.location.href = `/login`;
                     setTimeout(() => {
                         window.location.reload();
                     }, 100);
-                }, 5000)
+                }, 5000);
                 return;
             }
             showsubmit.value = true;
-            document.getElementById(`changeViewButton`).innerText = `返回题目`
+            document.getElementById(`changeViewButton`).innerText = `返回题目`;
 
-        })
+        });
     }
     else {
         showsubmit.value = false;
-        document.getElementById(`changeViewButton`).innerText = `提交题目`
+        document.getElementById(`changeViewButton`).innerText = `提交题目`;
     }
 }
 // user codes 
@@ -78,25 +77,24 @@ function submit() {
     let flag;
     const Timer = new Date();
     if (window.location.hash.split("?")[1]) {
-        if (flag = +window.location.hash.split("?")[1].match(/contestId=(\S+)/)[1]) {
+        if (flag == +window.location.hash.split("?")[1].match(/contestId=(\S+)/)[1]) {
             axio.get(`${ip}/getContest/${flag}`).then((res) => {
-                window.alert(`${Timer.getTime()},'@',${res.data.endtime}`)
                 if (Timer.getTime() > res.data.endtime) {
                     Notification.error(`比赛已结束`);
                     return;
                 }
-                let ed = res.data.endtime
-                window.alert(ed)
+                const ed = res.data.endtime;
+                window.alert(ed);
                 keepLogin().then((res) => {
                     if (res.logined == false) {
                         Notification.error({
                             title: '请登录',
                             content: '三秒后自动跳转到登录界面',
                             closable: true,
-                        })
+                        });
                         setTimeout(() => {
-                            window.location.href = `./login.html`
-                        }, 3000)
+                            window.location.href = `/login`;
+                        }, 3000);
                     }
                     else {
                         console.log(Timer.getMonth());
@@ -107,11 +105,11 @@ function submit() {
                             codes: codes.value,
                             contestId: flag
                         }).then((res) => {
-                            window.location.href = `./record.html#/${res.data}`
-                        })
+                            window.location.href = `/record/${res.data}`;
+                        });
                     }
-                })
-            })
+                });
+            });
             return;
         }
 
@@ -122,10 +120,10 @@ function submit() {
                 title: '请登录',
                 content: '三秒后自动跳转到登录界面',
                 closable: true,
-            })
+            });
             setTimeout(() => {
-                window.location.href = `./login.html`
-            }, 3000)
+                window.location.href = `/login`;
+            }, 3000);
         }
         else {
             console.log(Timer.getMonth());
@@ -136,10 +134,10 @@ function submit() {
                 codes: codes.value,
                 contestEnd: 0
             }).then((res) => {
-                window.location.href = `./record.html#/${res.data}`
-            })
+                window.location.href = `/record/${res.data}`;
+            });
         }
-    })
+    });
 }
 /**
  * @function changVal 将用户输入的值实时更新到 value
@@ -160,7 +158,7 @@ function changeVal(code) {
         </div>
         <div id="header">
             <Button @click="changView" id="changeViewButton" type="primary" status="success" size="large"
-                style="padding: 10px;margin-right: 20px; !important">
+                style="padding: 10px;margin-right: 20px !important">
                 提交题目
             </Button>
             <Button @click="submit" id="Submit" v-show="showsubmit" type="primary" status="success" size="large"
@@ -176,10 +174,10 @@ function changeVal(code) {
             <div v-html="problemDescription" style="display: inline-block;padding: 5% 5% 15%; width: 56%;">
             </div>
             <Card style="position: relative;width: 25%;height: 60rem;margin-top: 5%;float: right;">
-                <Link :href="`./record.html#/list?problem=${problemId}`">
+                <Link :href="`/record/list?problem=${problemId}`">
                 <span>提交记录</span>
                 </Link>
-                <Link :href="`./admin.html#/problem/${problemId}`" v-show="showAdmin">
+                <Link :href="`/admin/problem/${problemId}`" v-show="showAdmin">
                 题目管理
                 </Link>
             </Card>
@@ -188,7 +186,6 @@ function changeVal(code) {
 </template>
 
 <style>
-
 .ace-container .ace-editor {
     margin: 6% 0% !important;
     width: 95%;

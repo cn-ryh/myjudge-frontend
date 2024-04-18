@@ -1,11 +1,10 @@
-
 <template>
     <div class="ace-container">
         <!-- 官方文档中使用 id，这里禁止使用，在后期打包后容易出现问题，使用 ref 或者 DOM 就行 -->
         <div ref="ace" class="ace-editor"></div>
     </div>
 </template>
-  
+
 <script>
 import ace from '/ace-builds';
 import '/ace-builds/webpack-resolver'; // 在 webpack 环境中使用必须要导入
@@ -20,7 +19,7 @@ int main()
 {
     return 0;
 }
-`
+`;
 export default {
     name: 'AceEditor',
     props: {
@@ -120,5 +119,3 @@ export default {
     border-image: initial;
 }
 </style>
-  
-  

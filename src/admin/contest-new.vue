@@ -1,32 +1,30 @@
-<script setup>
+<script setup lang="ts">
 import { ip } from '@/ip';
 import axios from 'axios';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { Notification, Button, TabPane, Tabs, Table, TableColumn, Tag, Link } from '@arco-design/web-vue';
-import { AutoComplete, DateRangePicker } from 'tdesign-vue-next'
+import { AutoComplete, AutoCompleteOption, AutoCompleteOptionObj, DateRangePicker } from 'tdesign-vue-next';
 
-let title = ref(``)
-let description = ref(``)
-window.location.title = `新建比赛`
-let problems = ref([])
-let upproblems = ref([])
-let beginTime = ref()
-let endTime = ref()
-function filterWords(keyword, option) {
+const title = ref(``);
+const description = ref(``);
+document.title = `新建比赛`;
+const problems: Ref<IProblem[]> = ref([]);
+const upproblems: Ref<unknown[]> = ref([]);
+function filterWords(keyword: string, option: AutoCompleteOption) {
     const regExp = new RegExp(keyword);
-    return regExp.test(option.text);
+    return regExp.test((option as AutoCompleteOptionObj).text!);
 }
-const options = ref([])
-const nowProblem = ref(``)
-const problemList = ref([])
+const options: Ref<AutoCompleteOption[]> = ref([]);
+const nowProblem = ref(``);
+const problemList: Ref<IProblem[]> = ref([]);
 axios.get(`${ip}/getProblemList`).then((res) => {
     options.value = [];
-    problemList.value = res.data.problems
-    for (let now of res.data.problems) {
+    problemList.value = res.data.problems;
+    for (const now of res.data.problems) {
         options.value.push(`${now.pid} ${now.title}`);
     }
-})
-let TimeRange = ref([])
+});
+const TimeRange = ref([]);
 
 function newContest() {
     if (TimeRange.value.length !== 2) {
@@ -51,24 +49,24 @@ function newContest() {
             Notification.success({
                 title: "成功",
                 content: `比赛创建成功`
-            })
+            });
         }
 
-    })
+    });
 }
 function addToTable() {
     if (nowProblem.value !== ``) {
 
         const id = nowProblem.value.split(` `)[0];
         if (!id) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` })
+            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
-        let x = problemList.value.filter((item) => {
+        const x = problemList.value.filter((item) => {
             return item.pid == id;
         })[0];
         if (!x) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` })
+            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
         upproblems.value.push({
@@ -76,64 +74,14 @@ function addToTable() {
             problem: x.pid
         });
         problems.value.push(x);
-        nowProblem.value = ``
+        nowProblem.value = ``;
     }
     else {
         return;
     }
 }
-function translateDiff(difficult) {
-    switch (difficult) {
-        case 1:
-            return "普及 T1";
-        case 2:
-            return "普及 T2";
-        case 3:
-            return "普及 T3";
-        case 4:
-            return "普及 T4 / 提高 T1";
-        case 5:
-            return "提高 T2";
-        case 6:
-            return "提高 T3 / T4";
-        case 7:
-            return "省选";
-        case 8:
-            return "NOI";
-        case 9:
-            return "NOI+";
-        default:
-            return "暂无评定";
-    }
-}
 
-function translateColor(difficult) {
-    switch (difficult) {
-        case 1:
-            return "#f53f3f";
-        case 2:
-            return "#ff7d00";
-        case 3:
-            return "#ffb400";
-        case 4:
-            return "#00b42a";
-        case 5:
-            return "#165dff";
-        case 6:
-            return "#0fc6c2";
-        case 7:
-            return "#b71de8";
-        case 8:
-            return "black";
-        case 9:
-            return "#FF00FF";
-        default:
-            return "#86909c";
-    }
-}
-const handleChange = (_data) => {
-    problems.value = _data
-}
+
 </script>
 <template>
     <Card>
@@ -151,8 +99,7 @@ const handleChange = (_data) => {
                 <textarea v-model="description" class="inputarea"
                     style="margin-bottom: 20px; height: 20rem;width: 95%;resize: none;margin-left: 10px;"
                     placeholder="请输入比赛描述，支持Markdown。"></textarea>
-                <DateRangePicker v-model="TimeRange" enable-time-picker allow-input clearable @pick="onPick"
-                    @change="onChange" />
+                <DateRangePicker v-model="TimeRange" enable-time-picker allow-input clearable />
 
             </TabPane>
             <TabPane key="2" title="题目编排">
@@ -162,14 +109,14 @@ const handleChange = (_data) => {
                         placeholder="请输入题目编号或标题" style="width: 280px;display: inline-block;" />
                     <Button @click="addToTable()">确认</Button>
 
-                    <Table style="margin-top: 20px;" :columns="columns" :data="problems"
-                        :draggable="{ type: 'handle', width: 40 }" @change="handleChange">
-                        <template #columns style="height: 10px !important">
+                    <Table style="margin-top: 20px;" :data="problems" :draggable="{ type: 'handle', width: 40 }"
+                        @change="handleChange">
+                        <template #columns>
                             <TableColumn title="题号" data-index="pid">
                             </TableColumn>
                             <TableColumn title="题目名称" data-index="title">
                                 <template #cell="{ record }">
-                                    <Link :href="`./problem.html#/${record.pid}`">
+                                    <Link :href="`/problem/${record.pid}`">
                                     <span style="font-weight: 800;">
                                         {{ record.title }}
                                     </span>

@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ip } from '@/ip';
 import axios from 'axios';
 import { ref } from 'vue';
 import { Notification, Button,Card,Select,Option,Tabs,TabPane } from '@arco-design/web-vue';
 
-window.location.title = `新建题目`
-let title = ref(``)
-let description = ref(``)
-let diff = ref(0);
+document.title = `新建题目`;
+const title = ref(``);
+const description = ref(``);
+const diff = ref(0);
 function newProblem() {
     axios.post(`${ip}/newProblem`, {
         title: title.value,
@@ -19,14 +19,14 @@ function newProblem() {
             Notification.success({
                 title: "成功",
                 content: `题目创建成功，pid为 ${res.data.pid}`
-            })
+            });
             setTimeout(()=>
             {
-                window.location.href = `./admin.html#/problem/${res.data.pid}`;
+                window.location.href = `/admin/problem/${res.data.pid}`;
             },3000);
         }
 
-    })
+    });
 }
 
 </script>
@@ -34,7 +34,7 @@ function newProblem() {
         <Card style="width: 90%;margin-left: 5%;margin-top: 1%;">
         <div>
             <span> 题目编号 </span>
-            <input placeholder="自动分配" id="problemIdInputer" v-model="pid" disabled>
+            <input placeholder="自动分配" id="problemIdInputer" disabled>
         </div>
         <Tabs default-active-key="1">
             <TabPane key="1" title="管理">

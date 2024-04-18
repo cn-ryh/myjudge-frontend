@@ -1,87 +1,86 @@
 <script setup lang="ts">
 import { ip } from '@/ip';
 import axios from 'axios';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { Notification, Card, Tabs, TabPane, Link, Button } from '@arco-design/web-vue';
 import { AutoComplete, DateRangePicker } from 'tdesign-vue-next';
 
-let title = ref('');
-let description = ref('');
-let page = window.location.href;
-let problems = ref([]);
-let upproblems = ref([]);
-let problemList = ref();
-let options = ref([]);
-let TimeRange = ref([]);
+const title = ref('');
+const description = ref('');
+const page = window.location.href;
+const problems: Ref<unknown[]> = ref([]);
+const upproblems: Ref<unknown[]> = ref([]);
+const problemList: Ref<unknown[]> = ref([]);
+const options: Ref<string[]> = ref([]);
+const TimeRange: Ref<string[]> = ref([]);
 const nowProblem = ref('');
 axios.get(`${ip}/getProblemList`).then((res) => {
     options.value = [];
     problemList.value = res.data.problems;
-    for (let now of res.data.problems) {
+    for (const now of res.data.problems) {
         options.value.push(`${now.pid} ${now.title}`);
     }
 });
-function translateDiff(difficult) {
+function translateDiff(difficult: number) {
     switch (difficult) {
-    case 1:
-        return '普及 T1';
-    case 2:
-        return '普及 T2';
-    case 3:
-        return '普及 T3';
-    case 4:
-        return '普及 T4 / 提高 T1';
-    case 5:
-        return '提高 T2';
-    case 6:
-        return '提高 T3 / T4';
-    case 7:
-        return '省选';
-    case 8:
-        return 'NOI';
-    case 9:
-        return 'NOI+';
-    default:
-        return '暂无评定';
+        case 1:
+            return '普及 T1';
+        case 2:
+            return '普及 T2';
+        case 3:
+            return '普及 T3';
+        case 4:
+            return '普及 T4 / 提高 T1';
+        case 5:
+            return '提高 T2';
+        case 6:
+            return '提高 T3 / T4';
+        case 7:
+            return '省选';
+        case 8:
+            return 'NOI';
+        case 9:
+            return 'NOI+';
+        default:
+            return '暂无评定';
     }
 }
 
-function translateColor(difficult) {
+function translateColor(difficult: number) {
     switch (difficult) {
-    case 1:
-        return '#f53f3f';
-    case 2:
-        return '#ff7d00';
-    case 3:
-        return '#ffb400';
-    case 4:
-        return '#00b42a';
-    case 5:
-        return '#165dff';
-    case 6:
-        return '#0fc6c2';
-    case 7:
-        return '#b71de8';
-    case 8:
-        return 'black';
-    case 9:
-        return '#FF00FF';
-    default:
-        return '#86909c';
+        case 1:
+            return '#f53f3f';
+        case 2:
+            return '#ff7d00';
+        case 3:
+            return '#ffb400';
+        case 4:
+            return '#00b42a';
+        case 5:
+            return '#165dff';
+        case 6:
+            return '#0fc6c2';
+        case 7:
+            return '#b71de8';
+        case 8:
+            return 'black';
+        case 9:
+            return '#FF00FF';
+        default:
+            return '#86909c';
     }
 }
-const handleChange = (_data) => {
+const handleChange = (_data: unknown) => {
     problems.value = _data;
 };
 function addToTable() {
     if (nowProblem.value !== '') {
-
         const id = nowProblem.value.split(' ')[0];
         if (!id) {
             Notification.error({ title: '题目未找到', content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
-        let x = problemList.value.filter((item) => {
+        const x = problemList.value.filter((item) => {
             return item.pid == id;
         })[0];
         if (!x) {
@@ -99,10 +98,10 @@ function addToTable() {
         return;
     }
 }
-let id = ref('');
+const id = ref('');
 if (page.substring(page.lastIndexOf('/') + 1) !== 'contest') {
     axios.get(`${ip}/getContest/${page.substring(page.lastIndexOf('/') + 1)}`).then((res) => {
-        let contest = res.data;
+        const contest = res.data;
         description.value = contest.descriptionmd;
         id.value = contest.id;
         title.value = contest.title;
@@ -111,13 +110,12 @@ if (page.substring(page.lastIndexOf('/') + 1) !== 'contest') {
             upproblems.value.push({ id: i, problem: problems.value[i].pid });
         }
         const l = new Date(contest.begintime), r = new Date(contest.endtime);
-        TimeRange.value = [`${l.getFullYear()}-${l.getMonth()}-${l.getDate()} ${l.getHours()}:${l.getMinutes()}-${l.getSeconds()}`,
+        TimeRange.value = [
+            `${l.getFullYear()}-${l.getMonth()}-${l.getDate()} ${l.getHours()}:${l.getMinutes()}-${l.getSeconds()}`,
             `${r.getFullYear()}-${r.getMonth()}-${r.getDate()} ${r.getHours()}:${r.getMinutes()}-${r.getSeconds()}`];
     });
 }
-else {
 
-}
 function changeTraining() {
     axios.post(`${ip}/changeContest/${page.substring(page.lastIndexOf('/') + 1)}`, {
         title: title.value,
@@ -155,18 +153,18 @@ function changeTraining() {
             <TabPane key="2" title="题目编辑">
                 <div>
                     <span>请选择题目：</span>
-                    <AutoComplete v-model="nowProblem" :options="options" :filter="filterWords" highlight-keyword
-                        placeholder="请输入题目编号或标题" style="width: 280px;display: inline-block;" />
+                    <AutoComplete v-model="nowProblem" :options="options" highlight-keyword placeholder="请输入题目编号或标题"
+                        style="width: 280px;display: inline-block;" />
                     <Button @click="addToTable()">确认</Button>
 
-                    <Table style="margin-top: 20px;" :columns="columns" :data="problems"
-                        :draggable="{ type: 'handle', width: 40 }" @change="handleChange">
-                        <template #columns style="height: 10px !important">
+                    <Table style="margin-top: 20px;" :data="problems" :draggable="{ type: 'handle', width: 40 }"
+                        @change="handleChange">
+                        <template #columns>
                             <TableColumn title="题号" data-index="pid">
                             </TableColumn>
                             <TableColumn title="题目名称" data-index="title">
                                 <template #cell="{ record }">
-                                    <Link :href="`./problem.html#/${record.pid}`">
+                                    <Link :href="`/problem/${record.pid}`">
                                     <span style="font-weight: 800;">
                                         {{ record.title }}
                                     </span>
@@ -187,7 +185,7 @@ function changeTraining() {
             </TabPane>
 
         </Tabs>
-        <DateRangePicker v-model="TimeRange" enable-time-picker allow-input clearable @pick="onPick" @change="onChange" />
+        <DateRangePicker v-model="TimeRange" enable-time-picker allow-input clearable />
         <br>
         <br>
         <Button @click="changeTraining()">

@@ -1,80 +1,77 @@
 {
-  "name": "test",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "axios": "^1.6.2",
-    "codemirror-editor-vue3": "^2.4.1",
-    "commander": "^11.1.0",
-    "cross-spawn": "^7.0.3",
-    "echarts": "^5.4.3",
-    "file-loader": "^6.2.0",
-    "fs": "^0.0.1-security",
-    "fs-extra": "^11.1.1",
-    "path-key": "^4.0.0",
-    "shebang-command": "^2.0.0",
-    "tdesign-vue-next": "^1.7.0",
-    "@arco-design/web-vue": "^2.53.3",
-    "core-js": "^3.8.3",
-    "glob": "^10.3.10",
-    "gsap": "^3.12.4",
-    "highlight.js": "^11.9.0",
-    "less": "^4.2.0",
-    "less-loader": "^12.2.0",
-    "markdown-it": "^14.0.0",
-    "markdown-it-mathjax3": "^4.3.2",
-    "register-service-worker": "^1.7.2",
-    "ts-loader": "^9.5.1",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
-  },
-  "devDependencies": {
-    "compression-webpack-plugin": "^10.0.0",
-    "electron-builder": "^24.9.1",
-    "webpack": "^5.89.0",
-    "@types/markdown-it": "^13.0.7",
-    "@types/node": "^20.11.16",
-    "@typescript-eslint/eslint-plugin": "^7.0.2",
-    "@typescript-eslint/parser": "^7.0.2",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-pwa": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-typescript": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "@vue/eslint-config-typescript": "^9.1.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^9.22.0",
-    "stylus": "^0.55.0",
-    "stylus-loader": "^6.1.0",
-    "typescript": "~4.5.5"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "vue/setup-compiler-macros": true
+    "name": "test",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint --fix"
     },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended",
-      "@vue/typescript/recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2020
+    "dependencies": {
+        "@arco-design/web-vue": "^2.53.3",
+        "axios": "^1.6.2",
+        "core-js": "^3.8.3",
+        "echarts": "^5.4.3",
+        "file-loader": "^6.2.0",
+        "glob": "^10.3.10",
+        "gsap": "^3.12.4",
+        "highlight.js": "^11.9.0",
+        "js-cookie": "^3.0.5",
+        "less": "^4.2.0",
+        "less-loader": "^12.2.0",
+        "markdown-it": "^14.0.0",
+        "markdown-it-mathjax3": "^4.3.2",
+        "path-key": "^4.0.0",
+        "register-service-worker": "^1.7.2",
+        "tdesign-vue-next": "^1.7.0",
+        "ts-loader": "^9.5.1",
+        "vue": "^3.2.13",
+        "vue-router": "^4.0.3"
     },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+    "devDependencies": {
+        "@types/js-cookie": "^3.0.6",
+        "@types/markdown-it": "^13.0.7",
+        "@types/node": "^20.11.16",
+        "@typescript-eslint/eslint-plugin": "^7.0.2",
+        "@typescript-eslint/parser": "^7.0.2",
+        "@vue/cli-plugin-babel": "~5.0.0",
+        "@vue/cli-plugin-eslint": "~5.0.0",
+        "@vue/cli-plugin-pwa": "~5.0.0",
+        "@vue/cli-plugin-router": "~5.0.0",
+        "@vue/cli-plugin-typescript": "~5.0.0",
+        "@vue/cli-plugin-vuex": "~5.0.0",
+        "@vue/cli-service": "~5.0.0",
+        "@vue/eslint-config-typescript": "^13.0.0",
+        "compression-webpack-plugin": "^10.0.0",
+        "electron-builder": "^24.9.1",
+        "eslint": "^8.56.0",
+        "eslint-plugin-vue": "^9.22.0",
+        "stylus": "^0.55.0",
+        "stylus-loader": "^6.1.0",
+        "typescript": "~5.4.4",
+        "webpack": "^5.89.0"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true,
+            "vue/setup-compiler-macros": true
+        },
+        "extends": [
+            "plugin:vue/vue3-essential",
+            "eslint:recommended",
+            "@vue/typescript/recommended"
+        ],
+        "parserOptions": {
+            "ecmaVersion": 2020
+        },
+        "rules": {}
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead",
+        "not ie 11"
+    ]
 }

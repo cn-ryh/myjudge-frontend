@@ -1,29 +1,28 @@
-
 <script setup>
 import { ip } from "@/ip";
 import axios from "axios";
 import { ref } from "vue";
-let lastres = ref([])
-let user = ref(``)
-let time = ref(``)
-let memory = ref(``)
+const lastres = ref([]);
+const user = ref(``);
+const time = ref(``);
+const memory = ref(``);
 
-let submitTime = ref(``)
-let state = ref(``)
-let title = ref(``)
-let point = ref(0)
-let problem = ref(``)
-import { Button, Link } from '@arco-design/web-vue';
+const submitTime = ref(``);
+const state = ref(``);
+const title = ref(``);
+const point = ref(0);
+const problem = ref(``);
+import { Link } from '@arco-design/web-vue';
 
 function showResult(res) {
 
-    lastres.value = []
+    lastres.value = [];
     const num = res.detail.length;
     for (let i = 0; i < num; i++) {
         lastres.value.push(res.detail[i]);
     }
 }
-let nowView = ref(`Details`)
+const nowView = ref(`Details`);
 
 /**
  * @function tranformState 将服务端返回的完整结果转译成缩写
@@ -48,51 +47,51 @@ function tranformState(state) {
     }
     return `UKE`;
 }
-let codes = ref(``)
+const codes = ref(``);
 
 function getrecord() {
     return new Promise((resolve) => {
-        const args = (window.location.href.split(`/`))
-        const recordid = args[args.length - 1]
+        const args = (window.location.href.split(`/`));
+        const recordid = args[args.length - 1];
         axios.get(`${ip}/getRecord/${recordid}`).then((res) => {
             const record = res.data;
             console.log(record);
             if (record != null && record != `` && record != undefined) {
                 showResult(record);
-                user.value = record.user
-                problem.value = record.problem
-                submitTime.value = record.submitTime
-                user.value = record.username
-                state.value = record.state
-                time.value = (record.sumtime > 60000 ? `${(record.sumtime / 60000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)))
-                memory.value = record.memory + `MB`
+                user.value = record.user;
+                problem.value = record.problem;
+                submitTime.value = record.submitTime;
+                user.value = record.username;
+                state.value = record.state;
+                time.value = (record.sumtime > 60000 ? `${(record.sumtime / 60000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)));
+                memory.value = record.memory + `MB`;
                 codes.value = record.code;
-                point.value = record.point
-                document.getElementById(`code-View`).innerHTML = hljs.highlight(codes.value, { language: `cpp` }).value
+                point.value = record.point;
+                document.getElementById(`code-View`).innerHTML = hljs.highlight(codes.value, { language: `cpp` }).value;
                 resolve();
                 axios.get(`${ip}/getProblem/${problem.value}`).then((problemData) => {
-                    title.value = problemData.data.title
-                })
+                    title.value = problemData.data.title;
+                });
 
             }
             else {
-                window.alert(`未找到提交记录`)
-                window.location.href = `/`
+                window.alert(`未找到提交记录`);
+                window.location.href = `/`;
             }
-        })
-    })
+        });
+    });
 
 }
 function changeView() {
     if (nowView.value == `Code`) {
-        nowView.value = `Details`
-        document.getElementsByClassName(`recordDetails`)[0].style.width = `60%`
-        document.getElementById(`changeView`).innerText = `查看代码`
+        nowView.value = `Details`;
+        document.getElementsByClassName(`recordDetails`)[0].style.width = `60%`;
+        document.getElementById(`changeView`).innerText = `查看代码`;
     }
     else {
-        nowView.value = `Code`
-        document.getElementsByClassName(`recordDetails`)[0].style.width = `80%`
-        document.getElementById(`changeView`).innerText = `查看测试点`
+        nowView.value = `Code`;
+        document.getElementsByClassName(`recordDetails`)[0].style.width = `80%`;
+        document.getElementById(`changeView`).innerText = `查看测试点`;
 
     }
 }
@@ -103,14 +102,14 @@ function tryGetting() {
                 setTimeout(() => {
                     tryGetting().then(() => {
                         resolve();
-                    })
-                }, 1000)
+                    });
+                }, 1000);
             }
             else {
                 resolve();
             }
-        })
-    })
+        });
+    });
 }
 tryGetting();
 </script>
@@ -119,8 +118,9 @@ tryGetting();
     <div class="recordDetails">
         <button id="changeView" @click="changeView()">查看代码</button>
         <div v-show="nowView == `Details`" style="width: 90%;">
-            <div v-for="(item, index) in lastres" class="testcase">
-                <div :class="'testcase' + tranformState(item.state)" style="text-align: center;width: 100%;height: 100%;">
+            <div v-for="(item, index) in lastres" class="testcase" :key="index">
+                <div :class="'testcase' + tranformState(item.state)"
+                    style="text-align: center;width: 100%;height: 100%;">
                     <div style="padding-top: .7em;">
                         {{ `#${(index + 1)}` }}
                         <br />
@@ -146,9 +146,10 @@ tryGetting();
                     <span>
                         所属题目：
                     </span>
-                    <Link :href="`./problem.html#/${problem}`" class="link color-default" style="font-size: medium;margin-bottom: 0 !important;">
-                    {{ (problem + ` ` + title).length < 20?(problem + ` ` + title):((problem + ` ` + title).substring(0,16)+`...`) }}
-                    </Link>
+                    <Link :href="`/problem/${problem}`" class="link color-default"
+                        style="font-size: medium;margin-bottom: 0 !important;">
+                    {{ (problem + ` ` + title).length < 20 ? (problem + ` ` + title) : ((problem + ` ` +
+                        title).substring(0,16)+`...`) }} </Link>
                 </div>
                 <div>
                     <span>评测状态：</span>
@@ -158,7 +159,8 @@ tryGetting();
                 </div>
                 <div>
                     <span>得分：</span>
-                    <span id="point" style="font-weight: bold;" :class="(point <= 30?`pointLow`:(point>=70?`pointHigh`:`pointMid`))">
+                    <span id="point" style="font-weight: bold;"
+                        :class="(point <= 30 ? `pointLow` : (point >= 70 ? `pointHigh` : `pointMid`))">
                         {{ point }}
                     </span>
                 </div>
@@ -180,30 +182,30 @@ tryGetting();
 </template>
 
 <style>
-.State-Accept
-{
+.State-Accept {
     color: rgb(82, 196, 26) !important;
 }
-.State-UnAccept
-{
+
+.State-UnAccept {
     color: rgb(255, 23, 23) !important;
 }
-.State-UnShown
-{
+
+.State-UnShown {
     color: black !important;
 }
-.pointLow
-{
+
+.pointLow {
     color: rgb(231, 76, 60);
 }
-.pointMid
-{
+
+.pointMid {
     color: rgb(245, 138, 14);
 }
-.pointHigh
-{
+
+.pointHigh {
     color: rgb(82, 196, 26);
 }
+
 a {
     /* color: #5e72e4 !important; */
     text-decoration: none;
