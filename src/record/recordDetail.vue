@@ -146,7 +146,7 @@ tryGetting();
                     <span>
                         所属题目：
                     </span>
-                    <Link :href="`/problem/${problem}`" class="link color-default"
+                    <Link :href="`/problem#/${problem}`" class="link color-default"
                         style="font-size: medium;margin-bottom: 0 !important;">
                     {{ (problem + ` ` + title).length < 20 ? (problem + ` ` + title) : ((problem + ` ` +
                         title).substring(0,16)+`...`) }} </Link>

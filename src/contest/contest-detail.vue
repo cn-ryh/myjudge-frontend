@@ -45,7 +45,7 @@ axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
                                 </TableColumn>
                                 <TableColumn title="题目名称" data-index="title">
                                     <template #cell="{ record }">
-                                        <Link :href="`/problem/${record.pid}?contestId=${id}`">
+                                        <Link :href="`/proble#m/${record.pid}?contestId=${id}`">
                                         <span style="font-weight: 800;">
                                             {{ record.title }}
                                         </span>

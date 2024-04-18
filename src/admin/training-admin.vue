@@ -159,7 +159,7 @@ function changeTraining() {
                             </TableColumn>
                             <TableColumn title="题目名称" data-index="title">
                                 <template #cell="{ record }">
-                                    <Link :href="`/problem/${record.pid}`">
+                                    <Link :href="`/problem#/${record.pid}`">
                                     <span style="font-weight: 800;">
                                         {{ record.title }}
                                     </span>

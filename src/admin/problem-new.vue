@@ -22,7 +22,7 @@ function newProblem() {
             });
             setTimeout(()=>
             {
-                window.location.href = `/admin/problem/${res.data.pid}`;
+                window.location.href = `/admin#/problem/${res.data.pid}`;
             },3000);
         }
 

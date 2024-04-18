@@ -19,7 +19,7 @@ getProblem().then((res) => {
                 </TableColumn>
                 <TableColumn title="题目名称" data-index="title">
                     <template #cell="{ record }">
-                        <a :href="`./${record.pid}`">
+                        <a :href="`/problem#/${record.pid}`">
                             <span style="font-weight: 800;">
                                 {{ record.title }}
                             </span>

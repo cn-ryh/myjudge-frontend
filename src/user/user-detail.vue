@@ -93,7 +93,7 @@ function getPercent() {
 
                         <div>
                             <span v-for="(problem) of item" :key="problem">
-                                <Link :href="`/problem/${problem}`" style="font-size: large;">
+                                <Link :href="`/problem#/${problem}`" style="font-size: large;">
                                 {{ problem }}
                                 </Link>
                                 {{ ' ' }}

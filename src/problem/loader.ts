@@ -19,6 +19,6 @@ const routes = [
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHashHistory(`problem`),
     routes,
-    
+
 });
 export { router };

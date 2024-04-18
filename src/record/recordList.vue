@@ -21,7 +21,7 @@ function getrecord() {
     const uid = document.getElementById(`user`).value;
     const state = document.getElementById(`state`).value;
     if (recordid !== ``) {
-        window.location.href = `/record/${recordid}`;
+        window.location.href = `/record#/${recordid}`;
         return;
     }
     const searchOption = {};
@@ -38,7 +38,7 @@ function getrecord() {
         window.alert(`不提供所有提交记录的查询`);
         return;
     }
-    let url = `/record/list?`;
+    let url = `/record#/list?`;
     for (const now in searchOption) {
         url += `${now}=${searchOption[now]}&`;
     }
@@ -90,7 +90,7 @@ function getrecord() {
                     </span>
                 </div>
                 <div style="width: 12%;display: inline-block;">
-                    <a :href="`/record/${item.id}`">
+                    <a :href="`/record#/${item.id}`">
                         <span :class="`State-${item.state}`.replace(/\s/g, ``)"
                             style="padding:1px 2px;font-size: large;font-weight: 420;">
                             {{ item.state }}
@@ -99,7 +99,7 @@ function getrecord() {
                 </div>
                 <div class="problem" style="width: 10%;display: inline-block;">
                     <div>
-                        <a :href="`/problem/${item.problem}`" style="color: rgb(10, 10, 230);">
+                        <a :href="`/problem#/${item.problem}`" style="color: rgb(10, 10, 230);">
                             <span class="pid">
                                 <b>{{ item.problem }}</b>
                                 {{ item.title }}

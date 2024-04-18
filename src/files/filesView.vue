@@ -5,6 +5,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 
 import { Upload } from '@arco-design/web-vue';
+import NavView from '@/modules/navView.vue';
 
 window.onhashchange = () => {
     window.location.reload();
@@ -49,8 +50,8 @@ function DownloadFile(event) {
 }
 </script>
 <template>
-
-    <div id="Files" style="margin-left: 5rem;">
+    <NavView></NavView>
+    <div id="Files" style="margin-left: 5rem;margin-top: 5rem;">
         <center>
             <h1>欢迎使用 11OJ 在线文件系统</h1>
         </center>

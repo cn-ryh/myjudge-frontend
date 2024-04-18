@@ -16,7 +16,7 @@ const problemDescription = ref(``);
 axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
     if (res.data == ``) {
         alert(`不存在的题目`);
-        location.replace(`./problem/list`);
+        location.replace(`/problem#/list`);
     }
     problemName.value = res.data.title;
     problemDescription.value = res.data.description;
@@ -105,7 +105,7 @@ function submit() {
                             codes: codes.value,
                             contestId: flag
                         }).then((res) => {
-                            window.location.href = `/record/${res.data}`;
+                            window.location.href = `/record#/${res.data}`;
                         });
                     }
                 });
@@ -134,7 +134,7 @@ function submit() {
                 codes: codes.value,
                 contestEnd: 0
             }).then((res) => {
-                window.location.href = `/record/${res.data}`;
+                window.location.href = `/record#/${res.data}`;
             });
         }
     });
@@ -174,10 +174,10 @@ function changeVal(code) {
             <div v-html="problemDescription" style="display: inline-block;padding: 5% 5% 15%; width: 56%;">
             </div>
             <Card style="position: relative;width: 25%;height: 60rem;margin-top: 5%;float: right;">
-                <Link :href="`/record/list?problem=${problemId}`">
+                <Link :href="`/record#/list?problem=${problemId}`">
                 <span>提交记录</span>
                 </Link>
-                <Link :href="`/admin/problem/${problemId}`" v-show="showAdmin">
+                <Link :href="`/admin#/problem/${problemId}`" v-show="showAdmin">
                 题目管理
                 </Link>
             </Card>

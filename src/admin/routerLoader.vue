@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NavView from '@/modules/navView.vue';
 import { keepLogin } from '@/modules/user/getUserData';
 
 import { Notification } from '@arco-design/web-vue';
@@ -23,8 +24,8 @@ keepLogin().then((res) => {
 </script>
 
 <template>
-
-    <div style="margin-left: 5rem;">
+    <NavView></NavView>
+    <div style="margin-top: 5rem;">
         <router-view></router-view>
 
     </div>
