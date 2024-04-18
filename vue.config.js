@@ -44,6 +44,12 @@ export default defineConfig({
             ]
         }
     },
-    parallel: false
+    parallel: false,
+    devServer:
+    {
+        staticOptions: { fallthrough: false }
+    }
+
+
 }
 );
