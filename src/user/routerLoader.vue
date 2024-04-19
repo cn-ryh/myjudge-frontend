@@ -1,8 +1,10 @@
 <script setup lang="ts">
-</script>
+import NavView from '@/modules/navView.vue';
 
+</script>
 <template>
-    <div>
+    <NavView></NavView>
+    <div style="margin-left: 100px;margin-top: 4rem;">
         <router-view></router-view>
     </div>
 </template>

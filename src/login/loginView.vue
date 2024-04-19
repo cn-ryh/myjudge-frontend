@@ -4,6 +4,7 @@ import axio from 'axios';
 import { ip } from '../ip';
 import { setCookie } from '@/cookie';
 import { Notification } from '@arco-design/web-vue';
+import NavView from '@/modules/navView.vue';
 
 window.onhashchange = () => {
     window.location.reload();
@@ -51,7 +52,7 @@ function toRegister() {
 }
 </script>
 <template>
-
+    <NavView></NavView>
     <center>
         <div id="welcome">
             <h2><b>
