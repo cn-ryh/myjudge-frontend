@@ -13,6 +13,5 @@ import '@arco-design/web-vue/es/tag/style/css.js';
 import '@arco-design/web-vue/es/link/style/css.js';
 import '@arco-design/web-vue/es/steps/style/css.js';
 
-import 'tdesign-vue-next/es/style/css';
 app.use(router);
 app.mount(`#admin`);

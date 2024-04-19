@@ -31,7 +31,6 @@ function newContest() {
         Notification.error(`请填写完整时间`);
         return;
     }
-
     if (title.value === ``) {
         Notification.error(`请填写完整比赛标题`);
         return;

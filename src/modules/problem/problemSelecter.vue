@@ -1,22 +1,37 @@
 <script setup lang="ts">
+import 'tdesign-vue-next/es/style/css';
+
 import '@arco-design/web-vue/es/table/style/css.js';
 import '@arco-design/web-vue/es/select/style/css.js';
+import '@arco-design/web-vue/es/link/style/css.js';
+import '@arco-design/web-vue/es/tag/style/css.js';
 import { translateColor, translateDiff } from '@/modules/problem/translate'
-import { Notification, TableData } from '@arco-design/web-vue';
+import { Button, Notification, Link, Tag, Table, TableColumn } from '@arco-design/web-vue';
 import { ref, Ref } from 'vue';
-import { AutoCompleteOption, AutoCompleteOptionObj } from 'tdesign-vue-next';
-const problems: Ref<IProblem[]> = ref([]);
-const upproblems: Ref<unknown[]> = ref([]);
+import { AutoComplete, AutoCompleteOption, AutoCompleteOptionObj } from 'tdesign-vue-next';
+import axios from 'axios';
+import { ip } from '@/ip';
 const problemList: Ref<IProblem[]> = ref([]);
+const props = defineProps<{
+    upproblems: IProblem[]
+}>()
+const emit = defineEmits(['update:upproblems'])
 const nowProblem = ref(``);
 const options: Ref<AutoCompleteOption[]> = ref([]);
+axios.get(`${ip}/getProblemList`).then((res) => {
+    options.value = [];
+    problemList.value = res.data.problems;
+    console.log(problemList.value)
+    for (const now of res.data.problems) {
+        options.value.push(`${now.pid} ${now.title}`);
+    }
+});
 function filterWords(keyword: string, option: AutoCompleteOption) {
     const regExp = new RegExp(keyword);
     return regExp.test((option as AutoCompleteOptionObj).text!);
 }
 function addToTable() {
     if (nowProblem.value !== ``) {
-
         const id = nowProblem.value.split(` `)[0];
         if (!id) {
             Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
@@ -29,20 +44,16 @@ function addToTable() {
             Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
-        upproblems.value.push({
-            id: problems.value.length + 1,
-            problem: x.pid
-        });
-        problems.value.push(x);
+        emit(`update:upproblems`, props.upproblems.concat([x]))
         nowProblem.value = ``;
     }
     else {
         return;
     }
 }
-const handleChange = (_data: TableData[]) => {
-    problems.value = _data as IProblem[];
-};
+// const handleChange = (_data: TableData[]) => {
+//     problems.value = _data as IProblem[];
+// };
 </script>
 <template>
     <div>
@@ -51,14 +62,13 @@ const handleChange = (_data: TableData[]) => {
             placeholder="请输入题目编号或标题" style="width: 280px;display: inline-block;" />
         <Button @click="addToTable()">确认</Button>
 
-        <Table style="margin-top: 20px;" :data="problems" :draggable="{ type: 'handle', width: 40 }"
-            @change="handleChange">
+        <Table style="margin-top: 20px;" :data="upproblems" :draggable="{ type: 'handle', width: 40 }">
             <template #columns>
                 <TableColumn title="题号" data-index="pid">
                 </TableColumn>
                 <TableColumn title="题目名称" data-index="title">
                     <template #cell="{ record }">
-                        <Link :href="`/problem#/${record.pid}`">
+                        <Link :href="`/problem#/${record}`">
                         <span style="font-weight: 800;">
                             {{ record.title }}
                         </span>

@@ -1,4 +1,6 @@
 <script setup>
+import NavView from '@/modules/navView.vue';
+
 
 window.onhashchange = () => {
     window.location.reload();
@@ -6,8 +8,8 @@ window.onhashchange = () => {
 </script>
 
 <template>
-
-    <div>
+    <NavView></NavView>
+    <div style="margin-top: 4rem;">
         <router-view></router-view>
 
     </div>

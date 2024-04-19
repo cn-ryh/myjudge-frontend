@@ -2,102 +2,15 @@
 import { ip } from '@/ip';
 import axios from 'axios';
 import { Ref, ref } from 'vue';
-import { Notification, Card, Tabs, TabPane, Link, Button } from '@arco-design/web-vue';
-import { AutoComplete, DateRangePicker } from 'tdesign-vue-next';
-
+import { Notification, Card, Tabs, TabPane, Button } from '@arco-design/web-vue';
+import { DateRangePicker } from 'tdesign-vue-next';
+import ProblemSelecter from '@/modules/problem/problemSelecter.vue';
+const upproblems: Ref<IProblem[]> = ref([])
 const title = ref('');
 const description = ref('');
 const page = window.location.href;
-const problems: Ref<unknown[]> = ref([]);
-const upproblems: Ref<unknown[]> = ref([]);
-const problemList: Ref<unknown[]> = ref([]);
-const options: Ref<string[]> = ref([]);
 const TimeRange: Ref<string[]> = ref([]);
-const nowProblem = ref('');
-axios.get(`${ip}/getProblemList`).then((res) => {
-    options.value = [];
-    problemList.value = res.data.problems;
-    for (const now of res.data.problems) {
-        options.value.push(`${now.pid} ${now.title}`);
-    }
-});
-function translateDiff(difficult: number) {
-    switch (difficult) {
-        case 1:
-            return '普及 T1';
-        case 2:
-            return '普及 T2';
-        case 3:
-            return '普及 T3';
-        case 4:
-            return '普及 T4 / 提高 T1';
-        case 5:
-            return '提高 T2';
-        case 6:
-            return '提高 T3 / T4';
-        case 7:
-            return '省选';
-        case 8:
-            return 'NOI';
-        case 9:
-            return 'NOI+';
-        default:
-            return '暂无评定';
-    }
-}
 
-function translateColor(difficult: number) {
-    switch (difficult) {
-        case 1:
-            return '#f53f3f';
-        case 2:
-            return '#ff7d00';
-        case 3:
-            return '#ffb400';
-        case 4:
-            return '#00b42a';
-        case 5:
-            return '#165dff';
-        case 6:
-            return '#0fc6c2';
-        case 7:
-            return '#b71de8';
-        case 8:
-            return 'black';
-        case 9:
-            return '#FF00FF';
-        default:
-            return '#86909c';
-    }
-}
-const handleChange = (_data: unknown) => {
-    problems.value = _data;
-};
-function addToTable() {
-    if (nowProblem.value !== '') {
-        const id = nowProblem.value.split(' ')[0];
-        if (!id) {
-            Notification.error({ title: '题目未找到', content: `您选择的题目 ${nowProblem.value} 未扎到` });
-            return;
-        }
-        const x = problemList.value.filter((item) => {
-            return item.pid == id;
-        })[0];
-        if (!x) {
-            Notification.error({ title: '题目未找到', content: `您选择的题目 ${nowProblem.value} 未扎到` });
-            return;
-        }
-        upproblems.value.push({
-            id: problems.value.length + 1,
-            problem: x.pid
-        });
-        problems.value.push(x);
-        nowProblem.value = '';
-    }
-    else {
-        return;
-    }
-}
 const id = ref('');
 if (page.substring(page.lastIndexOf('/') + 1) !== 'contest') {
     axios.get(`${ip}/getContest/${page.substring(page.lastIndexOf('/') + 1)}`).then((res) => {
@@ -105,14 +18,12 @@ if (page.substring(page.lastIndexOf('/') + 1) !== 'contest') {
         description.value = contest.descriptionmd;
         id.value = contest.id;
         title.value = contest.title;
-        problems.value = contest.problems;
-        for (let i = 0; i < problems.value.length; i++) {
-            upproblems.value.push({ id: i, problem: problems.value[i].pid });
-        }
+        upproblems.value = contest.problems;
         const l = new Date(contest.begintime), r = new Date(contest.endtime);
+
         TimeRange.value = [
-            `${l.getFullYear()}-${l.getMonth()}-${l.getDate()} ${l.getHours()}:${l.getMinutes()}-${l.getSeconds()}`,
-            `${r.getFullYear()}-${r.getMonth()}-${r.getDate()} ${r.getHours()}:${r.getMinutes()}-${r.getSeconds()}`];
+            l.toLocaleString(),
+            r.toLocaleString()];
     });
 }
 
@@ -121,13 +32,15 @@ function changeTraining() {
         title: title.value,
         description: description.value,
         problems: upproblems.value,
-        begintime: (new Date(TimeRange.value[0])).getTime() / 1000,
-        endtime: (new Date(TimeRange.value[1])).getTime() / 1000,
+        begintime: (new Date(TimeRange.value[0])).getTime(),
+        endtime: (new Date(TimeRange.value[1])).getTime(),
     }).then(() => {
         Notification.success('更新成功');
     });
 }
-
+setInterval(() => {
+    console.log(TimeRange.value)
+}, 1000);
 </script>
 <template>
     <Card style="width: 90%;margin: 5%;">
@@ -151,37 +64,7 @@ function changeTraining() {
 
             </TabPane>
             <TabPane key="2" title="题目编辑">
-                <div>
-                    <span>请选择题目：</span>
-                    <AutoComplete v-model="nowProblem" :options="options" highlight-keyword placeholder="请输入题目编号或标题"
-                        style="width: 280px;display: inline-block;" />
-                    <Button @click="addToTable()">确认</Button>
-
-                    <Table style="margin-top: 20px;" :data="problems" :draggable="{ type: 'handle', width: 40 }"
-                        @change="handleChange">
-                        <template #columns>
-                            <TableColumn title="题号" data-index="pid">
-                            </TableColumn>
-                            <TableColumn title="题目名称" data-index="title">
-                                <template #cell="{ record }">
-                                    <Link :href="`/problem#/${record.pid}`">
-                                    <span style="font-weight: 800;">
-                                        {{ record.title }}
-                                    </span>
-                                    </Link>
-                                </template>
-                            </TableColumn>
-                            <TableColumn title="题目难度" data-index="difficult">
-                                <template #cell="{ record }">
-                                    <a-tag :color="translateColor(record.difficult)">
-                                        {{ translateDiff(record.difficult) }}
-                                    </a-tag>
-                                </template>
-                            </TableColumn>
-                            <!-- </a> -->
-                        </template>
-                    </Table>
-                </div>
+                <ProblemSelecter v-model:upproblems="upproblems"></ProblemSelecter>
             </TabPane>
 
         </Tabs>

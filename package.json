@@ -25,6 +25,8 @@
         "markdown-it-mathjax3": "^4.3.2",
         "path-key": "^4.0.0",
         "register-service-worker": "^1.7.2",
+        "socket.io": "^4.7.5",
+        "socket.io-client": "^4.7.5",
         "tdesign-vue-next": "^1.7.0",
         "ts-loader": "^9.5.1",
         "vue": "^3.2.13",

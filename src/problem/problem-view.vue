@@ -76,10 +76,14 @@ int main()
 function submit() {
     let flag;
     const Timer = new Date();
+    window.alert
     if (window.location.hash.split("?")[1]) {
-        if (flag == +window.location.hash.split("?")[1].match(/contestId=(\S+)/)[1]) {
+        flag = (+window.location.hash.split("?")[1].match(/contestId=(\S+)/)[1])
+        if (flag) {
+            console.log(Timer.getTime())
             axio.get(`${ip}/getContest/${flag}`).then((res) => {
                 if (Timer.getTime() > res.data.endtime) {
+                    console.log(res.data.endtime);
                     Notification.error(`比赛已结束`);
                     return;
                 }

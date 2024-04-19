@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { keepLogin } from '@/modules/user/getUserData';
-import { Button, HeadMenu, MenuItem, Image, Link } from 'tdesign-vue-next'
+import { Button, HeadMenu, MenuItem, Image, Link, Submenu } from 'tdesign-vue-next'
+import { io } from 'socket.io-client'
+// const socket = io(`http://192.168.1.7:9999`, {
+const socket = io(`https://lenovo.cnryh.cn:38888`, {
+    path: `/oj/socket.io`
+});
+// socket.emit()
+socket.emit(`emittt`,`${window.location.href}`);
+socket.on(`emittt`,(emit)=>
+{
+    console.log(emit)
+})
 import 'tdesign-vue-next/es/style/css';
 import userSign from './user/userSign.vue';
 import { Ref, ref } from 'vue';
-import { SubMenu } from '@arco-design/web-vue';
 const logined: Ref<boolean> = ref(false), uid: Ref<number> = ref(0);
 keepLogin().then((res) => {
     if (res.logined) {
@@ -12,16 +22,20 @@ keepLogin().then((res) => {
         uid.value = res.uid;
     }
 })
+function jumpHome() {
+    window.location.href = `/`
+}
 </script>
 <template>
-    <HeadMenu theme="dark" style="position: fixed;top: 0;z-index: 9999;">
-        <MenuItem value="item1" style="width: 6vh;height: 6vh;" :href="`/`">
-        <Image src="/logo.png" style="width: 6vh;height: 6vh;"></Image>
-        </MenuItem>
-        <SubMenu value="item-app">
-            
-        </SubMenu>
-
+    <HeadMenu theme="dark" style="position: fixed;top: 0;z-index: 9;" expand-type="popup">
+        <template #logo>
+            <Image src="/logo.png" style="width: 6vh;height: 6vh;" @click="jumpHome"></Image>
+        </template>
+        <Submenu value="awa1" title="应用">
+            <MenuItem value="awa1-1" :href="`/files`">
+            文件系统
+            </MenuItem>
+        </Submenu>
         <MenuItem value="item2" :href="`/problem#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">题库</span>
         </MenuItem>
@@ -31,7 +45,7 @@ keepLogin().then((res) => {
         <MenuItem value="item4" :href="`/contest#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">比赛</span>
         </MenuItem>
-        <MenuItem value="item4" :href="`/contest#/list`">
+        <MenuItem value="item5" :href="`/admin#/index`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">后台</span>
         </MenuItem>
         <template #operations>
