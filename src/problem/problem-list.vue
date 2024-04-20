@@ -12,8 +12,8 @@ getProblem().then((res) => {
 
 </script>
 <template>
-    <div id="problemList" class="row-warp" style="margin-left: 2vw;">
-        <Table :pagination="{ pageSize: 15 }" :data="problemList" size="medium" :bordered="false" style="width: 90vw;">
+    <div id="problemList" class="row-warp" style="margin-left: 5vw;">
+        <Table :pagination="{ pageSize: 20 }" :data="problemList" size="small" :bordered="false" style="width: 60vw">
             <template #columns>
                 <TableColumn title="题号" data-index="pid">
                 </TableColumn>
@@ -33,7 +33,6 @@ getProblem().then((res) => {
                         </Tag>
                     </template>
                 </TableColumn>
-                <!-- </a> -->
             </template>
         </Table>
     </div>
@@ -44,11 +43,6 @@ a {
     text-decoration: none;
     color: #3e5fe0;
 }
-
-td {
-    padding: 5px 0 !important;
-}
-
 button {
     background-color: none !important;
     width: auto !important;
@@ -62,5 +56,9 @@ button {
     border-radius: 2px;
     height: 1em;
     overflow: hidden;
+}
+#problemList .arco-table-size-small .arco-table-cell
+{
+    padding: 4.5px 10px;
 }
 </style>
