@@ -31,9 +31,12 @@ function jumpHome() {
         <template #logo>
             <Image src="/logo.png" style="width: 6vh;height: 6vh;" @click="jumpHome"></Image>
         </template>
-        <Submenu value="awa1" title="应用">
+        <Submenu value="awa1" title="应用" style="font-size: 1.1rem;">
             <MenuItem value="awa1-1" :href="`/files`">
             文件系统
+            </MenuItem>
+            <MenuItem value="awa1-1" :href="`/netcut#/mine`">
+            云剪切板
             </MenuItem>
         </Submenu>
         <MenuItem value="item2" :href="`/problem#/list`">

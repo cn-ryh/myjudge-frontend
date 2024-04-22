@@ -66,4 +66,5 @@ function getUserData(uid: number) {
         })
     })
 }
+
 export { keepLogin, getUserData };

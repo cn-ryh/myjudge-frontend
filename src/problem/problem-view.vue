@@ -71,6 +71,7 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
         location.replace(`/problem#/list`);
     }
     problemName.value = res.data.title;
+    document.title = problemName.value;
     problemDescription.value = res.data.description;
     TimeLimit.value = res.data.TimeLimit;
     MemoryLimit.value = res.data.MemoryLimit;
@@ -125,10 +126,8 @@ function submit() {
     if (window.location.hash.split("?")[1]) {
         flag = (+window.location.hash.split("?")[1].match(/contestId=(\S+)/)![1])
         if (flag) {
-            console.log(Timer.getTime())
             axio.get(`${ip}/getContest/${flag}`).then((res) => {
                 if (Timer.getTime() > res.data.endtime) {
-                    console.log(res.data.endtime);
                     Notification.error(`比赛已结束`);
                     return;
                 }
@@ -144,7 +143,6 @@ function submit() {
                         }, 3000);
                     }
                     else {
-                        console.log(monacoInstance.getValue());
                         axio.post(ip + `/problem-submit`, {
                             user: res.uid,
                             submittime: `${Timer.getFullYear()}-${Timer.getMonth() + 1}-${Timer.getDate()}  ${Timer.getHours()}:${Timer.getMinutes()}:${Timer.getSeconds()}`,
@@ -225,10 +223,7 @@ function submit() {
 </template>
 
 <style>
-.ace-container .ace-editor {
-    margin: 6% 0% !important;
-    width: 95%;
-}
+
 
 button {
     border-radius: 5px;

@@ -18,3 +18,13 @@ declare class IProblem {
         }
     }
 }
+
+declare class INetcut {
+    paths: string = ``;
+    value: string = ``;
+    password: string = null;
+    creater: number = 0;
+    createTime: number = 0;
+    updateTime: number = 0;
+    edit: boolean = false;
+}

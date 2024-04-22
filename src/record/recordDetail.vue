@@ -55,7 +55,6 @@ function getrecord() {
         const recordid = args[args.length - 1];
         axios.get(`${ip}/getRecord/${recordid}`).then((res) => {
             const record = res.data;
-            console.log(record);
             if (record != null && record != `` && record != undefined) {
                 showResult(record);
                 user.value = record.user;

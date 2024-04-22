@@ -9,4 +9,4 @@ import "@arco-design/web-vue/es/tabs/style/css.js";
 import "@arco-design/web-vue/es/tag/style/css.js";
 const app = createApp(App);
 app.use(router);
-app.mount('#training');
+app.mount('#discuss');

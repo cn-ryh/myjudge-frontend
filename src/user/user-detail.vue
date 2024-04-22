@@ -30,9 +30,9 @@ axios.get(`${ip}/getUserData/${uid}`).then((res) => {
 </script>
 
 <template>
-    <div style="width: 90vw;height: 100vh;">
-        <div style="width: 60%;height: 95%;float: left;margin-top: 4vh;">
-            <Card style="width: 100%;height: 100%;padding: 5%;font-size: larger;">
+    <div style="width: 90vw;height: auto;min-height: 100vh;">
+        <div style="width: 60%;height: auto;min-height: 95vh;float: left;margin-top: 4vh;">
+            <Card style="width: 100%;height: auto;min-height: 80vh;padding: 5%;font-size: larger;">
                 <Tabs>
                     <TabPane key="1" title="个人主页">
                     </TabPane>
