@@ -1,99 +1,5 @@
 @charset "UTF-8";
 
-html[data-theme=dark] {
-    --text-color: #9e9e9e;
-    --bg-color: #0d1117;
-    --bg-color-secondary: #161b22;
-    --bg-color-tertiary: #21262c;
-    --border-color: #30363d;
-    --box-shadow: #282a32;
-    --card-shadow: rgba(0, 0, 0, .3);
-    --black: #fff;
-    --grey-dark: #999;
-    --grey-light: #666;
-    --white: #000;
-    --grey-darker: #bbb;
-    --grey-lighter: #333;
-    --grey14: #111;
-    --bg-color-light: #161b22;
-    --bg-color-back: #0d1117;
-    --bg-color-float: #161b22;
-    --bg-color-blur: rgba(13, 17, 23, .9);
-    --bg-color-float-blur: rgba(22, 27, 34, .9);
-    --text-color-light: #a8a8a8;
-    --text-color-lighter: #b1b1b1;
-    --text-color-bright: #c5c5c5;
-    --border-color-light: #2e333a;
-    --border-color-dark: #394048
-}
-
-:root {
-    --theme-color: #087dbe;
-    --text-color: #2c3e50;
-    --bg-color: #fff;
-    --bg-color-secondary: #f8f8f8;
-    --bg-color-tertiary: #efeef4;
-    --border-color: #eaecef;
-    --box-shadow: #f0f1f2;
-    --card-shadow: rgba(0, 0, 0, .15);
-    --black: #000;
-    --grey-dark: #666;
-    --grey-light: #999;
-    --white: #fff;
-    --grey-darker: #333;
-    --grey-lighter: #bbb;
-    --grey14: #eee;
-    --navbar-height: 3.75rem;
-    --navbar-horizontal-padding: 1.5rem;
-    --navbar-vertical-padding: .7rem;
-    --navbar-mobile-height: 3.25rem;
-    --navbar-mobile-horizontal-padding: 1rem;
-    --navbar-mobile-vertical-padding: .5rem;
-    --sidebar-width: 18rem;
-    --sidebar-mobile-width: 16rem;
-    --content-width: 780px;
-    --home-page-width: 1160px;
-    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", STHeiti, "Microsoft YaHei", SimSun, sans-serif;
-    --font-family-heading: Georgia Pro, Crimson, Georgia, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", STHeiti, "Microsoft YaHei", SimSun, sans-serif;
-    --font-family-mono: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-    --line-numbers-width: 2.5rem;
-    --color-transition: .3s ease;
-    --transform-transition: .3s ease;
-    --vp-bg: var(--bg-color);
-    --vp-bgl: var(--bg-color-light);
-    --vp-bglt: var(--bg-color-tertiary);
-    --vp-c: var(--text-color);
-    --vp-cl: var(--text-color-light);
-    --vp-clt: var(--text-color-lighter);
-    --vp-brc: var(--border-color);
-    --vp-brcd: var(--border-color-dark);
-    --vp-tc: var(--theme-color);
-    --vp-tcl: var(--theme-color-light);
-    --vp-ct: var(--color-transition);
-    --vp-tt: var(--transform-transition);
-    --bg-color-light: #fff;
-    --bg-color-back: #f8f8f8;
-    --bg-color-float: #fff;
-    --bg-color-blur: rgba(255, 255, 255, .9);
-    --bg-color-float-blur: rgba(255, 255, 255, .9);
-    --text-color-light: #3a5169;
-    --text-color-lighter: #476582;
-    --text-color-bright: #6a8bad;
-    --border-color-light: #eceef1;
-    --border-color-dark: #cfd4db;
-    --theme-color-dark: #0771ab;
-    --theme-color-light: #0991dc;
-    --theme-color-mask: rgba(8, 125, 190, .15)
-}
-
-:root {
-    --badge-tip-color: #42b983;
-    --badge-warning-color: #f4cd00;
-    --badge-danger-color: #f55;
-    --badge-info-color: #0295ff;
-    --badge-note-color: #666
-}
-
 .vp-badge {
     display: inline-block;
     vertical-align: center;
@@ -6201,10 +6107,6 @@ blockquote>p {
     margin: 0
 }
 
-hr {
-    border: 0;
-    border-top: 1px solid #eaecef
-}
 
 
 @page {
@@ -6273,28 +6175,12 @@ hr {
     src: url(data:font/truetype;charset=utf-8;base64,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) format("truetype")
 }
 
-html,
-body {
-    background: var(--bg-color)
-}
-
 :root {
     color-scheme: light
 }
 
 html[data-theme=dark] {
     color-scheme: dark
-}
-
-body {
-    color: var(--text-color);
-    font-family: var(--font-family)
-}
-
-@media (min-width: 1440px) {
-    body {
-        font-size: 17px
-    }
 }
 
 a {
@@ -6343,10 +6229,6 @@ h6 {
     }
 }
 
-h2,
-hr {
-    border-color: var(--border-color)
-}
 
 tr:nth-child(odd) {
     background: var(--bg-color-secondary)
@@ -7167,10 +7049,6 @@ html[dir=rtl] a.header-anchor:before {
     --hint-border-color: #009400
 }
 
-html[data-theme=dark] {
-    --hint-title-color: #e6f6e6;
-    --hint-bg-color: #003100
-}
 
 .custom-container.hint {
     position: relative;

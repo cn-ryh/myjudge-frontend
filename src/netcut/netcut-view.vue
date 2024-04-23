@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ip } from '@/ip';
 import { Card, Notification } from '@arco-design/web-vue';
-import { Form, FormItem, Input, Switch, Tooltip, Button, Skeleton } from 'tdesign-vue-next'
+import { Form, FormItem, Input, Switch, Button, Skeleton } from 'tdesign-vue-next'
 import { markdownit } from '@/modules/MarkdownIt/markdown';
 import userSign from '@/modules/user/userSign.vue';
 import axios from 'axios';
@@ -195,8 +195,8 @@ function editClick() {
                     <Input v-model="password"></Input>
                 </FormItem>
 
-                <FormItem v-if="usePassword" :label="`他人编辑`" name="tel" initial-data="123456">
-                    <Tooltip content="启用后，正确输入密码的人均可编辑剪切板">❓</Tooltip>
+                <FormItem help="启用后，正确输入密码的人均可编辑剪切板" v-if="usePassword" :label="`他人编辑`" name="tel"
+                    initial-data="123456">
                     <Switch v-model="canEdit"></Switch>
                 </FormItem>
             </Form>

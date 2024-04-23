@@ -18,8 +18,8 @@ class UserLoginData {
 class UserPublicData {
     uid = 0;
     username = ``
-    tag: { color: string, text: string } = { color: ``, text: `` };
-    constructor(uid = 0, username = ``, tag = { color: ``, text: `` }) {
+    tag: { color: string, text: string, textcolor: string }[] = [];
+    constructor(uid = 0, username = ``, tag = []) {
         this.uid = uid;
         this.username = username;
         this.tag = tag;

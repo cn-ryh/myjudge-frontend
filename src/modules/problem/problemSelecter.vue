@@ -11,6 +11,7 @@ import { ref, Ref } from 'vue';
 import { AutoComplete, AutoCompleteOption, AutoCompleteOptionObj } from 'tdesign-vue-next';
 import axios from 'axios';
 import { ip } from '@/ip';
+import { IProblem } from '../interface';
 const problemList: Ref<IProblem[]> = ref([]);
 const props = defineProps<{
     upproblems: IProblem[]

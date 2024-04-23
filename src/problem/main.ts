@@ -12,4 +12,4 @@ import '@arco-design/web-vue/es/notification/style/css.js';
 import '@arco-design/web-vue/es/card/style/css.js';
 import '@arco-design/web-vue/es/link/style/css.js';
 
-app.mount('#problemlist');
+app.mount('#problemView');

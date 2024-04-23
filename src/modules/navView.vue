@@ -2,11 +2,13 @@
 import { keepLogin } from '@/modules/user/getUserData';
 import { Button, HeadMenu, MenuItem, Image, Link, Submenu } from 'tdesign-vue-next'
 import { io } from 'socket.io-client'
+import './normalize.css'
+import './layui-v2.9.8/layui/css/layui.css'
+import './main.css'
 // const socket = io(`http://192.168.1.7:9999`, {
 const socket = io(`https://lenovo.cnryh.cn:38888`, {
     path: `/oj/socket.io`
 });
-// socket.emit()
 socket.emit(`emittt`,`${window.location.href}`);
 socket.on(`emittt`,(emit)=>
 {
@@ -47,6 +49,12 @@ function jumpHome() {
         </MenuItem>
         <MenuItem value="item4" :href="`/contest#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">比赛</span>
+        </MenuItem>
+        <MenuItem value="item6" :href="`/record#/list`">
+        <span class="menuitem" style="color:white;font-size: 1.1rem;">提交记录</span>
+        </MenuItem>
+        <MenuItem value="item7" :href="`/discuss#/list`">
+        <span class="menuitem" style="color:white;font-size: 1.1rem;">讨论</span>
         </MenuItem>
         <MenuItem value="item5" :href="`/admin#/index`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">后台</span>

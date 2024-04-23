@@ -55,6 +55,8 @@
         "eslint": "^8.56.0",
         "eslint-plugin-vue": "^9.22.0",
         "typescript": "~5.4.4",
+        "unplugin-auto-import": "^0.17.5",
+        "unplugin-vue-components": "^0.26.0",
         "webpack": "^5.89.0"
     },
     "eslintConfig": {

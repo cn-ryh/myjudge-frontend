@@ -1,4 +1,7 @@
 import { defineConfig } from '@vue/cli-service';
+import AutoImport from 'unplugin-auto-import/webpack';
+import Components from 'unplugin-vue-components/webpack';
+import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 import { glob } from 'glob';
 import os from 'os';
 function creatEntry() {
@@ -42,7 +45,20 @@ export default defineConfig({
                     }
                 }
             ]
-        }
+        },
+        plugins: [
+            AutoImport({
+                resolvers: [TDesignResolver({
+                    library: 'vue-next'
+                })],
+            }),
+            Components({
+                resolvers: [TDesignResolver({
+                    library: 'vue-next'
+                })],
+            }),
+
+        ]
     },
     parallel: false
 }

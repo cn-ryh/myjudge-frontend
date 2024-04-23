@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 import App from './routerLoader.vue';
 import { router } from './loader';
 const app = createApp(App);
-import '@arco-design/web-vue/es/notification/style/css.js';
 import '@arco-design/web-vue/es/button/style/css.js';
 import '@arco-design/web-vue/es/upload/style/css.js';
 import '@arco-design/web-vue/es/card/style/css.js';

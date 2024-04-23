@@ -10,7 +10,7 @@
 
 <body>
     <link href="../highlight/styles/tomorrow-night-bright.min.css" rel="stylesheet" type="text/css">
-    <div id="problemlist">
+    <div id="problemView">
 
     </div>
     <footer>
@@ -20,28 +20,23 @@
     </footer>
 </body>
 <style>
-    #problemlist {
-        min-height: 100vh;
-    }
-
-    pre {
-        padding: 1%;
-        font-size: x-large;
-    }
-
     body {
-        font-size: larger;
         overflow-x: hidden;
+        background-color: rgb(239, 239, 239);
     }
-</style>
-<style>
+
+    #problemView {
+        min-height: 80vh;
+    }
+
     footer {
         position: relative;
         bottom: 0;
         background-color: rgba(130, 161, 239, 0.8);
         width: 98vw;
-        padding: 1vw;
+        padding: 1vh 1vw;
         margin-top: 2vh;
+        height: 8vh;
     }
 
     footer p {

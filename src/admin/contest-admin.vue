@@ -2,8 +2,8 @@
 import { ip } from '@/ip';
 import axios from 'axios';
 import { Ref, ref } from 'vue';
-import { Notification, Card, Tabs, TabPane, Button } from '@arco-design/web-vue';
-import { DateRangePicker } from 'tdesign-vue-next';
+import {  Card, Tabs, TabPane, Button } from '@arco-design/web-vue';
+import { DateRangePicker, NotifyPlugin } from 'tdesign-vue-next';
 import ProblemSelecter from '@/modules/problem/problemSelecter.vue';
 const upproblems: Ref<IProblem[]> = ref([])
 const title = ref('');
@@ -35,7 +35,9 @@ function changeTraining() {
         begintime: (new Date(TimeRange.value[0])).getTime(),
         endtime: (new Date(TimeRange.value[1])).getTime(),
     }).then(() => {
-        Notification.success('更新成功');
+        NotifyPlugin.success({
+            title: `成功`
+        });
     });
 }
 setInterval(() => {
