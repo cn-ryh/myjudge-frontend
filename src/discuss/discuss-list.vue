@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { Link, Button } from 'tdesign-vue-next';
+import { Link, Button, NotifyPlugin } from 'tdesign-vue-next';
 import { markdownit } from '../modules/MarkdownIt/markdown'
 import { Ref, ref } from 'vue';
+import axios from 'axios';
+import { ip } from '@/ip';
+import { IDiscussion } from '@/modules/interface';
 const discussTypes: Ref<string[]> = ref([`problem`, `tool`, `workOrder`, `language`, `firstExam`, `other`]);
 const discussTypesDisplay: Ref<string[]> = ref([`题目专版`, `工具链`, `工单`, `语言相关`, `初试相关`, `其他`]);
 const discussTypesRules: Ref<{
@@ -47,7 +50,20 @@ setTimeout(() => {
         (document.getElementsByClassName(`discussTypeLink${type.value}`)[0] as HTMLElement).style.color = `rgba(20,200,20,1)`;
     }
 }, 100)
-
+const list: Ref<IDiscussion[]> = ref([]);
+axios.post(`${ip}/getDiscussionList`, {}).then((getListRes) => {
+    if(getListRes.data.code === 0)
+    {
+        list.value.push(...getListRes.data.data);
+    }
+    else{
+        NotifyPlugin.warning({
+            title:`获取列表失败`,
+            content: `请查看日志`
+        });
+    }
+    return ;
+})
 </script>
 <template>
     <main style="padding: 2vh 1vw;">

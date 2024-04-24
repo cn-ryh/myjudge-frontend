@@ -67,10 +67,10 @@ enum processType {
     "reject" = "reject",
     "disable" = "disable"
 }
-class Reply {
+class IReply {
     id: string = ``;
     parentId: string = ``;
-    children: number[] = []
+    children: string[] = []
     sender: number = 0;
     sendTime: number = 0;
     value: string = ``
@@ -83,10 +83,10 @@ class IDiscussion {
     creater: number = 0;
     createTime: number = 0;
     replyTime: number = 0;
-    replys: Reply[] = [];
+    replys: IReply[] = [];
     problem: string | null = null;
     value: string = ``
 }
 
 
-export { IProblem, IDiscussion, INetcut, Reply, discussType, processType }
+export { IProblem, IDiscussion, INetcut, IReply, discussType, processType }

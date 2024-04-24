@@ -10,7 +10,6 @@
         "test": "live-server ./dist --port=8181 --host=localhost"
     },
     "dependencies": {
-        "@arco-design/web-vue": "^2.53.3",
         "@babel/plugin-transform-class-static-block": "^7.24.4",
         "@mdit/plugin-alert": "^0.9.0",
         "@mdit/plugin-align": "^0.9.0",

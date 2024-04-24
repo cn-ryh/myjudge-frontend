@@ -6,9 +6,26 @@ import { mark } from "@mdit/plugin-mark";
 import { tasklist } from "@mdit/plugin-tasklist";
 import { container } from "@mdit/plugin-container"
 import mathjax from "markdown-it-mathjax3"
+import highlight from 'highlight.js'
 
 import './style.css'
-const markdownit = new MarkdownIt().use(alert, {
+const markdownit = new MarkdownIt({
+    html: true, highlight: function (str, lang) {
+        if (!lang) {
+            lang = `cmd`
+        }
+        if (lang && highlight.getLanguage(lang)) {
+            try {
+                return '<pre class="hljs"><code>' +
+                    highlight.highlight(str, { language: lang, ignoreIllegals: true }).value +
+                    '</code></pre>';
+            } catch (__) { return str }
+        }
+        else {
+            return str;
+        }
+    }
+}).use(alert, {
     deep: true
 }).use(align).use(mathjax).use(tab).use(tasklist).use(mark).use(container, {
     name: "hint",

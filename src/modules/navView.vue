@@ -5,7 +5,7 @@ import { io } from 'socket.io-client'
 import './normalize.css'
 import './layui-v2.9.8/layui/css/layui.css'
 import './main.css'
-// const socket = io(`http://192.168.1.7:9999`, {
+import { currectUser } from './user/currectUser';
 const socket = io(`https://lenovo.cnryh.cn:38888`, {
     path: `/oj/socket.io`
 });
@@ -50,7 +50,7 @@ function jumpHome() {
         <MenuItem value="item4" :href="`/contest#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">比赛</span>
         </MenuItem>
-        <MenuItem value="item6" :href="`/record#/list`">
+        <MenuItem value="item6" :href="`/record#/list?user=${currectUser.uid}`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">提交记录</span>
         </MenuItem>
         <MenuItem value="item7" :href="`/discuss#/list`">
